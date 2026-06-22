@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Main template -->
+    <t t-name="knowledge_guide.MainTemplate">
+        <div class="user-guide-container">
+
+            <!-- Sidebar -->
+            <div class="user-guide-sidebar">
+                <!-- Search bar -->
+                <div class="user-guide-search">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="搜索指南内容..."
+                        t-model="state.searchTerm"
+                        t-on-input="onSearchInput"
+                    />
+                </div>
+
+                <!-- Categories and pages list -->
+                <div class="user-guide-categories">
+                    <t t-if="state.loading">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fa fa-spinner fa-spin fa-2x"/>
+                            <p>加载中...</p>
+                        </div>
+                    </t>
+
+                    <t t-elif="state.error">
+                        <div style="text-align: center; padding: 20px; color: #dc3545;">
+                            <i class="fa fa-exclamation-triangle fa-2x"/>
+                            <p>加载失败</p>
+                        </div>
+                    </t>
+
+                    <t t-elif="state.pages.length === 0">
+                        <div class="user-guide-no-results">
+                            <i class="fa fa-search"/>
+                            <p>没有找到匹配页面</p>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <t t-foreach="state.categories" t-as="category" t-key="category">
+                            <div class="user-guide-category">
+                                <div class="user-guide-category-title"
+                                     t-on-click="() => this.toggleCategory(category)">
+                                    <i class="fa"
+                                       t-att-class="{
+                                           'fa-chevron-right': !isCategoryExpanded(category),
+                                           'fa-chevron-down': isCategoryExpanded(category)
+                                       }"
+                                       style="transition: transform 0.2s; width: 14px;"/>
+                                    <i class="fa fa-folder-open"/>
+                                    <span t-esc="category"/>
+                                </div>
+                                <div class="user-guide-category-pages"
+                                     t-att-class="{ 'collapsed': !isCategoryExpanded(category) }">
+                                    <t t-foreach="getPagesByCategory(category)" t-as="page" t-key="page.id">
+                                        <div
+                                            class="user-guide-page-item"
+                                            t-att-class="{ 'active': isPageSelected(page) }"
+                                            t-on-click="() => this.selectPage(page)"
+                                        >
+                                            <i t-att-class="'fa ' + page.icon" style="margin-right: 8px;"/>
+                                            <span t-esc="page.name"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Content area -->
+            <div class="user-guide-content-area">
+                <t t-if="state.selectedPage">
+                    <div class="user-guide-content-wrapper">
+                        <t t-if="state.selectedPage.action_links.length">
+                            <div class="user-guide-action-bar">
+                                <t t-foreach="state.selectedPage.action_links" t-as="link" t-key="link.id">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary user-guide-action-button"
+                                        t-on-click="() => this.openGuideAction(link)"
+                                    >
+                                        <i t-att-class="'fa ' + link.icon"/>
+                                        <span t-esc="link.name"/>
+                                    </button>
+                                </t>
+                            </div>
+                        </t>
+                        <div class="user-guide-content"
+                             t-on-click="onContentClick"
+                             t-out="state.selectedPage.content_html"/>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="user-guide-empty-state">
+                        <i class="fa fa-book"/>
+                        <h3>知识库指南</h3>
+                        <p>从左侧选择一个章节开始阅读。</p>
+                    </div>
+                </t>
+            </div>
+
+        </div>
+    </t>
+
+</templates>

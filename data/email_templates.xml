@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="email_template_send_guide" model="mail.template">
+        <field name="name">发送知识库指南</field>
+        <field name="model_id" ref="model_knowledge_guide_book"/>
+        <field name="subject">知识库指南 - {{ object.name }}</field>
+        <field name="email_from">{{ (object.env.user.email_formatted or user.email_formatted) }}</field>
+        <field name="body_html" type="html">
+<div style="font-family: Arial, sans-serif; font-size: 14px; color: #333333; line-height: 1.6; max-width: 640px; margin: 0 auto;">
+    <p>您好，</p>
+
+    <p>以下是知识库指南链接，请在浏览器中打开查看。</p>
+
+    <p><strong>指南名称：</strong><t t-out="object.name"/></p>
+
+    <p><strong>访问链接：</strong><br/>
+    <a t-att-href="object.tracked_url or object.public_url"
+       style="color: #714B67; text-decoration: none;">
+        <t t-out="object.tracked_url or object.public_url"/>
+    </a></p>
+
+    <p>本指南包含 <t t-out="object.page_count"/> 个页面，可用于了解系统操作流程和业务说明。</p>
+
+    <p>该链接可直接访问，无需登录。请根据实际项目范围控制转发对象。</p>
+
+    <p>谢谢。<br/>
+    <t t-out="object.env.company.name"/></p>
+
+    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;"/>
+
+    <p style="font-size: 12px; color: #666666;">
+        这封邮件由 <t t-out="object.env.company.name"/> 通过 Odoo 发送。
+    </p>
+</div>
+        </field>
+    </record>
+
+</odoo>

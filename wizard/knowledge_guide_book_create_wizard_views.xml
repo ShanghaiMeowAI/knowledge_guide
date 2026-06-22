@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="knowledge_guide_book_create_wizard_form" model="ir.ui.view">
+        <field name="name">knowledge.guide.book.create.wizard.form</field>
+        <field name="model">knowledge.guide.book.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="按页面创建指南合集">
+                <field name="has_blocked" invisible="1"/>
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="例如：客户管理指南"/>
+                        <field name="slug" placeholder="customer-guide"/>
+                    </group>
+                    <notebook>
+                        <page string="已选页面" name="selected_pages">
+                            <field name="page_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="book_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="冲突页面" name="conflicts"
+                              invisible="not has_blocked">
+                            <div class="alert alert-warning" role="alert">
+                                <strong>部分页面已经属于其他指南合集。</strong>
+                                <br/>
+                                这些页面不能重复加入新的合集。请先从原合集移除，或取消选择这些页面。
+                            </div>
+                            <field name="blocked_page_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="book_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_create_book"
+                            string="创建合集"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="取消"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="knowledge_guide_book_create_wizard_action" model="ir.actions.act_window">
+        <field name="name">按所选页面创建合集</field>
+        <field name="res_model">knowledge.guide.book.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

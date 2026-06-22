@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List view -->
+    <record id="view_knowledge_guide_page_list" model="ir.ui.view">
+        <field name="name">knowledge.guide.page.list</field>
+        <field name="model">knowledge.guide.page</field>
+        <field name="arch" type="xml">
+            <list string="指南页面">
+                <header>
+                    <button name="%(knowledge_guide.knowledge_guide_book_create_wizard_action)d"
+                            type="action"
+                            string="按所选页面创建合集"
+                            display="always"
+                            class="btn-primary"
+                            icon="fa-book"/>
+                </header>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="book_id" optional="show"/>
+                <field name="module_source"/>
+                <field name="icon"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_knowledge_guide_page_form" model="ir.ui.view">
+        <field name="name">knowledge.guide.page.form</field>
+        <field name="model">knowledge.guide.page</field>
+        <field name="arch" type="xml">
+            <form string="指南页面">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="已归档" bg_color="text-bg-danger" invisible="active"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="category"/>
+                            <field name="icon"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="book_id"/>
+                            <field name="module_source"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="可见用户组">
+                        <field name="group_ids" widget="many2many_tags" nolabel="1"/>
+                        <p class="text-muted" colspan="2">
+                            不选择用户组时，所有内部用户都可以看到这个页面。
+                        </p>
+                    </group>
+                    <group string="Odoo 跳转按钮">
+                        <field name="action_link_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="action_xmlid"/>
+                                <field name="icon"/>
+                            </list>
+                        </field>
+                        <p class="text-muted" colspan="2">
+                            这些按钮只在 Odoo 后台使用指南中显示，用于打开对应的业务页面。
+                        </p>
+                    </group>
+                    <separator string="自定义内容"/>
+                    <field name="custom_content_html" nolabel="1" options="{'codeview': true}"/>
+                    <div invisible="not module_source">
+                        <separator string="模块原始内容"/>
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-muted">
+                                这段内容来自模块 <field name="module_source" class="fw-bold d-inline" readonly="1"/>，建议不要直接改原始内容。
+                                如需调整展示文本，请使用上方“自定义内容”。
+                            </span>
+                            <button name="action_view_source_html" type="object"
+                                    string="查看 HTML 源码" class="btn btn-sm btn-secondary ms-2"
+                                    icon="fa-code"/>
+                        </div>
+                        <field name="content_html" nolabel="1" readonly="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_knowledge_guide_page_search" model="ir.ui.view">
+        <field name="name">knowledge.guide.page.search</field>
+        <field name="model">knowledge.guide.page</field>
+        <field name="arch" type="xml">
+            <search string="搜索指南页面">
+                <field name="name"/>
+                <field name="category"/>
+                <field name="module_source"/>
+                <field name="book_id"/>
+                <filter name="active" string="启用" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="已归档" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_by_category" string="分类" context="{'group_by': 'category'}"/>
+                    <filter name="group_by_book" string="合集" context="{'group_by': 'book_id'}"/>
+                    <filter name="group_by_module" string="来源模块" context="{'group_by': 'module_source'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_knowledge_guide_page" model="ir.actions.act_window">
+        <field name="name">指南页面</field>
+        <field name="res_model">knowledge.guide.page</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                创建一个新的指南页面
+            </p>
+            <p>
+                指南页面可以按分类展示，也可以限制给指定用户组查看。
+            </p>
+        </field>
+    </record>
+
+</odoo>

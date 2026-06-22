@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Knowledge Guide</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #1f2933;
+            background: #ffffff;
+            line-height: 1.65;
+        }
+        .wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        .hero {
+            border-bottom: 1px solid #d8dee6;
+            padding-bottom: 28px;
+            margin-bottom: 28px;
+        }
+        h1 {
+            margin: 0 0 12px;
+            font-size: 34px;
+            line-height: 1.25;
+            color: #102a43;
+        }
+        h2 {
+            margin-top: 28px;
+            color: #243b53;
+            font-size: 22px;
+        }
+        ul {
+            padding-left: 22px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+        .item {
+            border: 1px solid #d8dee6;
+            border-radius: 8px;
+            padding: 16px;
+            background: #f7f9fb;
+        }
+        .item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #102a43;
+        }
+        code {
+            background: #eef2f7;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <section class="hero">
+            <h1>Knowledge Guide</h1>
+            <p>通用知识库指南模块，支持后台搜索、指南合集、公开 token 链接、访问统计和邮件分享。</p>
+        </section>
+
+        <h2>主要功能</h2>
+        <div class="grid">
+            <div class="item"><strong>页面管理</strong>维护可分类、可搜索、可权限控制的指南页面。</div>
+            <div class="item"><strong>指南合集</strong>把多个页面组成一套可发布的手册。</div>
+            <div class="item"><strong>公开链接</strong>通过不可猜测的 token 链接分享给外部读者。</div>
+            <div class="item"><strong>模块扩展</strong>业务模块可以通过 XML 数据追加自己的指南页面。</div>
+        </div>
+
+        <h2>使用入口</h2>
+        <ul>
+            <li>内部用户通过 <code>使用指南</code> 菜单阅读文档。</li>
+            <li>管理员在 <code>设置 > 知识库指南</code> 维护页面和合集。</li>
+            <li>指南合集可以发布为 <code>/guide/&lt;slug&gt;?token=&lt;uuid&gt;</code> 公开链接。</li>
+            <li>支持 <code>link.tracker</code> 统计访问量，并可通过邮件向导发送给联系人。</li>
+        </ul>
+    </main>
+</body>
+</html>
