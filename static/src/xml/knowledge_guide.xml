@@ -9,6 +9,24 @@
             <div class="user-guide-sidebar">
                 <!-- Search bar -->
                 <div class="user-guide-search">
+                    <div class="user-guide-language-selector" t-if="state.languages.length">
+                        <label for="knowledge_guide_language">语言</label>
+                        <select
+                            id="knowledge_guide_language"
+                            class="form-select"
+                            t-att-value="state.currentLang"
+                            t-on-change="onLanguageChange"
+                        >
+                            <t t-foreach="state.languages" t-as="language" t-key="language.code">
+                                <option
+                                    t-att-value="language.code"
+                                    t-att-selected="language.code === state.currentLang"
+                                >
+                                    <t t-esc="language.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
                     <input
                         type="text"
                         class="form-control"

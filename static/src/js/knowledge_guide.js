@@ -23,6 +23,9 @@ class KnowledgeGuide extends Component {
             categories: [],
             selectedPage: null,
             searchTerm: "",
+            currentLang: window.localStorage.getItem("knowledge_guide_lang") || "",
+            userLang: "",
+            languages: [],
             loading: true,
             error: false,
             expandedCategories: [],
@@ -47,8 +50,12 @@ class KnowledgeGuide extends Component {
 
             const result = await rpc("/knowledge_guide/get_pages", {
                 search_term: searchTerm || undefined,
+                lang: this.state.currentLang || undefined,
             });
 
+            this.state.currentLang = result.current_lang || this.state.currentLang;
+            this.state.userLang = result.user_lang || "";
+            this.state.languages = result.languages || [];
             this.state.pages = result.pages.map((p) => ({
                 ...p,
                 action_links: p.action_links || [],
@@ -153,6 +160,16 @@ class KnowledgeGuide extends Component {
         this._searchTimeout = setTimeout(() => {
             this.loadPages(searchTerm);
         }, 300);
+    }
+
+    async onLanguageChange(ev) {
+        const lang = ev.target.value;
+        this.state.currentLang = lang;
+        window.localStorage.setItem("knowledge_guide_lang", lang);
+        await this.loadPages(this.state.searchTerm);
+        if (this.state.selectedPage) {
+            this.selectPage(this.state.selectedPage);
+        }
     }
 
     getPagesByCategory(category) {

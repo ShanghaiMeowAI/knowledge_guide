@@ -5,8 +5,9 @@
     <template id="guide_book_public" name="Public Guide - Book">
         <t t-set="page_title" t-value="book.name"/>
         <t t-set="base_url" t-value="'/guide/' + book.slug"/>
+        <t t-set="query_string" t-value="'?token=' + token + '&amp;lang=' + current_lang"/>
 
-        <html lang="zh-CN">
+        <html t-att-lang="current_lang">
         <head>
             <meta charset="UTF-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -36,6 +37,19 @@
                             <i class="fa fa-book"></i>
                             <t t-out="book.name"/>
                         </h2>
+                        <t t-if="languages">
+                            <div class="gp-language-selector">
+                                <label for="publicGuideLanguage">语言</label>
+                                <select id="publicGuideLanguage" onchange="switchGuideLanguage(this.value)">
+                                    <t t-foreach="languages" t-as="language">
+                                        <option t-att-value="language['code']"
+                                                t-att-selected="language['code'] == current_lang">
+                                            <t t-out="language['name']"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </t>
                     </div>
                     <nav class="gp-sidebar-nav">
                         <t t-foreach="categories" t-as="cat_name">
@@ -53,7 +67,7 @@
                                     t-att-class="'' if has_active_page else 'collapsed'">
                                     <t t-foreach="categories[cat_name]" t-as="nav_page">
                                         <li t-att-class="'gp-nav-page-item' + (' active' if selected_page and nav_page.id == selected_page.id else '')">
-                                            <a t-att-href="base_url + '/' + str(nav_page.id) + '?token=' + token"
+                                            <a t-att-href="base_url + '/' + str(nav_page.id) + query_string"
                                                t-att-data-guide-page-xmlid="page_xmlids.get(nav_page.id, '')">
                                                 <i t-att-class="'fa ' + (nav_page.icon or 'fa-file-text-o')"></i>
                                                 <t t-out="nav_page.name"/>
@@ -103,7 +117,7 @@
                             <nav class="gp-pagination">
                                 <t t-if="prev_page">
                                     <a class="gp-pagination-btn gp-pagination-prev"
-                                       t-att-href="base_url + '/' + str(prev_page.id) + '?token=' + token">
+                                       t-att-href="base_url + '/' + str(prev_page.id) + query_string">
                                         <i class="fa fa-arrow-left"></i>
                                         <span class="gp-pagination-label">上一页</span>
                                         <span class="gp-pagination-title"><t t-out="prev_page.name"/></span>
@@ -114,7 +128,7 @@
                                 </t>
                                 <t t-if="next_page">
                                     <a class="gp-pagination-btn gp-pagination-next"
-                                       t-att-href="base_url + '/' + str(next_page.id) + '?token=' + token">
+                                       t-att-href="base_url + '/' + str(next_page.id) + query_string">
                                         <span class="gp-pagination-label">下一页</span>
                                         <span class="gp-pagination-title"><t t-out="next_page.name"/></span>
                                         <i class="fa fa-arrow-right"></i>
@@ -157,6 +171,12 @@
                     chevron.classList.remove('fa-chevron-down');
                     chevron.classList.add('fa-chevron-right');
                 }
+            }
+
+            function switchGuideLanguage(lang) {
+                var url = new URL(window.location.href);
+                url.searchParams.set('lang', lang);
+                window.location.href = url.toString();
             }
 
             document.addEventListener('DOMContentLoaded', function () {

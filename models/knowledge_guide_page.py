@@ -46,11 +46,11 @@ class KnowledgeGuidePage(models.Model):
         string='展示内容',
         compute='_compute_display_content_html',
         sanitize=False,
-    )
+        help="Stores the 展示内容 content shown or processed in the the knowledge guide guide workflow.")
 
     has_custom_content = fields.Boolean(
         compute='_compute_display_content_html',
-    )
+        help="Controls whether has custom content is enabled for the knowledge guide guide processing.")
 
     sequence = fields.Integer(
         string='Sequence',
@@ -192,7 +192,7 @@ class KnowledgeGuideActionLink(models.Model):
         string='按钮文字',
         required=True,
         translate=True,
-    )
+        help="Stores the 按钮文字 value used for the knowledge guide guide processing.")
 
     page_id = fields.Many2one(
         'knowledge.guide.page',
@@ -200,7 +200,7 @@ class KnowledgeGuideActionLink(models.Model):
         required=True,
         ondelete='cascade',
         index=True,
-    )
+        help="Links the 指南页面 record(s) used to organize and deliver guide content.")
 
     action_xmlid = fields.Char(
         string='动作 XMLID',
@@ -217,4 +217,4 @@ class KnowledgeGuideActionLink(models.Model):
     sequence = fields.Integer(
         string='Sequence',
         default=10,
-    )
+        help="Stores the Sequence value used for the knowledge guide guide processing.")

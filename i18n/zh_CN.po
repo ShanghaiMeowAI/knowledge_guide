@@ -1,0 +1,230 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* knowledge_guide
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+# GENERATED FIELD HELP TOOLTIP TRANSLATIONS - START
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__action_xmlid
+msgid "External ID of the ir.actions record opened by this button."
+msgstr "通过此按钮打开的 ir.actions 记录的外部 ID。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__icon
+msgid "FontAwesome class shown before the button text."
+msgstr "FontAwesome 类显示在按钮文本之前。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__name
+msgid "Stores the 按钮文字 value used for the knowledge guide guide processing."
+msgstr "存储按钮文字值，用于知识指南 guide 处理。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__page_id
+msgid "Links the 指南页面 record(s) used to organize and deliver guide content."
+msgstr "关联指南页面记录，用于指南内容组织与发送流程。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__sequence
+msgid "Stores the Sequence value used for the knowledge guide guide processing."
+msgstr "存储Sequence值，用于知识指南 guide 处理。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__access_token
+msgid "UUID token securing the public access to the book."
+msgstr "UUID 令牌保护公众对图书的访问。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__active
+msgid "Allows archiving a book without deleting it."
+msgstr "允许存档书籍而不删除它。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__click_count
+msgid "Number of clicks recorded by the link tracker."
+msgstr "链接跟踪器记录的点击次数。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__description_html
+msgid "Introduction shown at the top of the public guide."
+msgstr "介绍显示在公共指南的顶部。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__is_published
+msgid "If checked, the book is reachable through its public URL."
+msgstr "如果选中，则可以通过其公共 URL 访问该书。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__link_tracker_id
+msgid "Associated link tracker used to measure visits to the public guide."
+msgstr "关联的链接跟踪器用于衡量对公共指南的访问。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__module_source
+msgid "Technical name of the module that provided this book (used for traceability)."
+msgstr "提供本书的模块的技术名称（用于可追溯性）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__name
+msgid "Title of the book / guide."
+msgstr "书/指南的标题。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__page_count
+msgid "Number of active pages in this book."
+msgstr "本书的有效页数。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__page_ids
+msgid "Pages composing this book."
+msgstr "组成本书的页面。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__public_url
+msgid "Full URL to access the public guide."
+msgstr "访问公共指南的完整 URL。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__sequence
+msgid "Display order (lower comes first)."
+msgstr "显示顺序（较低的优先）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__slug
+msgid "Unique identifier used in the public URL (e.g. user-manual). Lowercase letters, digits and dashes only."
+msgstr "公共 URL 中使用的唯一标识符（例如用户手册）。仅限小写字母、数字和破折号。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__tracked_url
+msgid "Shortened tracked URL or public URL if no tracker is configured."
+msgstr "如果未配置跟踪器，则缩短跟踪 URL 或公共 URL。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__blocked_page_ids
+msgid "Links the 已属于其他合集的页面 record(s) used by this operation wizard."
+msgstr "关联已属于其他合集的页面记录，用于此操作向导。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__has_blocked
+msgid "Controls whether has blocked is enabled for the knowledge guide wizard processing."
+msgstr "控制是否为知识指南向导处理启用阻止。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__name
+msgid "Stores the 合集名称 value used for the knowledge guide wizard processing."
+msgstr "存储合集名称值，用于知识指南 wizard 处理。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__page_ids
+msgid "Links the 要加入的页面 record(s) used by this operation wizard."
+msgstr "关联要加入的页面记录，用于此操作向导。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__slug
+msgid "Lowercase letters, digits and dashes only. Used in the public URL."
+msgstr "仅限小写字母、数字和破折号。在公共 URL 中使用。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__action_link_ids
+msgid "Buttons displayed in the backend guide to jump to related Odoo pages."
+msgstr "后端指南中显示的按钮可跳转到相关的 Odoo 页面。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__active
+msgid "Allows archiving sections without deleting them."
+msgstr "允许存档部分而不删除它们。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__book_id
+msgid "Book this page belongs to (optional)."
+msgstr "此页所属的书籍（可选）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__category
+msgid "Section / category of the page (e.g. General, Sales, Inventory)."
+msgstr "页面的部分/类别（例如常规、销售、库存）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__content_html
+msgid "Content provided by the source module. Treat as read-only when a module source is set."
+msgstr "内容由源模块提供。设置模块源时视为只读。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__custom_content_html
+msgid "Content written by the administrator. When set, it replaces the original content in the displayed guide."
+msgstr "内容由管理员编写。设置后，它将替换显示指南中的原始内容。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__display_content_html
+msgid "Stores the 展示内容 content shown or processed in the the knowledge guide guide workflow."
+msgstr "存储展示内容内容，用于the 知识指南 guide workflow。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__group_ids
+msgid "If empty, the page is visible to everyone. Otherwise only users belonging to one of these groups can see it."
+msgstr "如果为空，则该页面对所有人可见。否则，只有属于这些组之一的用户才能看到它。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__has_custom_content
+msgid "Controls whether has custom content is enabled for the knowledge guide guide processing."
+msgstr "控制是否启用自定义内容以进行知识指南指南处理。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__icon
+msgid "FontAwesome class for the icon (e.g. fa-book, fa-cog, fa-user)."
+msgstr "图标的 FontAwesome 类（例如 fa-book、fa-cog、fa-user）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__module_source
+msgid "Technical name of the module providing this page (for traceability)."
+msgstr "提供此页面的模块的技术名称（用于可追溯性）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__name
+msgid "Title of the section displayed in the guide."
+msgstr "指南中显示的部分的标题。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__sequence
+msgid "Display order (lower comes first)."
+msgstr "显示顺序（较低的优先）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_send_wizard__body
+msgid "Email body (editable)."
+msgstr "电子邮件正文（可编辑）。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_send_wizard__book_id
+msgid "The book/guide to be sent."
+msgstr "要发送的书籍/指南。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_send_wizard__partner_ids
+msgid "Select the contacts that will receive the email."
+msgstr "选择将接收电子邮件的联系人。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_send_wizard__subject
+msgid "Email subject."
+msgstr "电子邮件主题。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_view_source_wizard__page_id
+msgid "Links the knowledge.guide.page record(s) used by this operation wizard."
+msgstr "关联knowledge.guide.page记录，用于此操作向导。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_view_source_wizard__source_code
+msgid "Stores the HTML 源码 content shown or processed in the the knowledge guide wizard workflow."
+msgstr "存储HTML源码内容，用于the 知识指南 wizard workflow。"
+
+# GENERATED FIELD HELP TOOLTIP TRANSLATIONS - END
