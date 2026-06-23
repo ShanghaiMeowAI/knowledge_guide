@@ -137,12 +137,16 @@ class TestKnowledgeGuidePublicController(TransactionCase):
 
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.data, b'rendered')
-        _book, _categories, all_pages, selected_page, prev_page, next_page, token = render.call_args.args
+        (
+            _book, _categories, all_pages, selected_page, prev_page, next_page,
+            token, language_context,
+        ) = render.call_args.args
         self.assertEqual(selected_page, first_page)
         self.assertEqual(list(all_pages), [first_page, second_page])
         self.assertFalse(prev_page)
         self.assertEqual(next_page, second_page)
         self.assertEqual(token, book.access_token)
+        self.assertIn('current_lang', language_context)
 
     def test_guide_page_public_rejects_page_from_another_book(self):
         """A page ID from another guide must not be rendered."""
@@ -173,8 +177,30 @@ class TestKnowledgeGuidePublicController(TransactionCase):
 
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.data, b'rendered')
-        _book, _categories, _all_pages, selected_page, prev_page, next_page, token = render.call_args.args
+        (
+            _book, _categories, _all_pages, selected_page, prev_page, next_page,
+            token, language_context,
+        ) = render.call_args.args
         self.assertEqual(selected_page, page)
         self.assertFalse(prev_page)
         self.assertFalse(next_page)
         self.assertEqual(token, book.access_token)
+        self.assertIn('current_lang', language_context)
+
+    def test_guide_page_public_accepts_manual_language(self):
+        """A public guide URL can manually select any active Odoo language."""
+        book, page = self._make_published_book(slug='manual-language-route')
+        lang = self.env['res.lang'].search([('active', '=', True)], limit=1)
+
+        with self._request_patch(), patch.object(
+            self.controller, '_render_guide', return_value='rendered'
+        ) as render:
+            self.controller.guide_page_public(
+                book.slug,
+                page.id,
+                token=book.access_token,
+                lang=lang.code,
+            )
+
+        language_context = render.call_args.args[7]
+        self.assertEqual(language_context['current_lang'], lang.code)

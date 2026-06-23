@@ -21,6 +21,26 @@
     border-bottom: 1px solid #dee2e6;
 }
 
+.user-guide-language-selector {
+    margin-bottom: 12px;
+}
+
+.user-guide-language-selector label {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.user-guide-language-selector select {
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .user-guide-search input {
     width: 100%;
     padding: 8px 12px;

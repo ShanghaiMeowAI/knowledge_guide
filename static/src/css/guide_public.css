@@ -72,6 +72,29 @@ a {
     font-size: 1.2rem;
 }
 
+.gp-language-selector {
+    margin-top: 14px;
+}
+
+.gp-language-selector label {
+    display: block;
+    margin-bottom: 5px;
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.gp-language-selector select {
+    width: 100%;
+    min-height: 36px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+}
+
 .gp-sidebar-nav {
     flex: 1;
     overflow-y: auto;

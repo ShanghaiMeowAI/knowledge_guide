@@ -19,7 +19,7 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
     name = fields.Char(
         string='合集名称',
         required=True,
-    )
+        help="Stores the 合集名称 value used for the knowledge guide wizard processing.")
 
     slug = fields.Char(
         string='URL 标识',
@@ -32,7 +32,7 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
         'knowledge.guide.page',
         string='要加入的页面',
         default=lambda self: self._default_page_ids(),
-    )
+        help="Links the 要加入的页面 record(s) used by this operation wizard.")
 
     blocked_page_ids = fields.Many2many(
         'knowledge.guide.page',
@@ -40,9 +40,9 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
         'wizard_id', 'page_id',
         string='已属于其他合集的页面',
         compute='_compute_blocked_page_ids',
-    )
+        help="Links the 已属于其他合集的页面 record(s) used by this operation wizard.")
 
-    has_blocked = fields.Boolean(compute='_compute_blocked_page_ids')
+    has_blocked = fields.Boolean(compute='_compute_blocked_page_ids', help="Controls whether has blocked is enabled for the knowledge guide wizard processing.")
 
     def _default_page_ids(self):
         if self.env.context.get('active_model') != 'knowledge.guide.page':

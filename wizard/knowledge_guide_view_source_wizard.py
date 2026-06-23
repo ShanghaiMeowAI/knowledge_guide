@@ -14,11 +14,11 @@ class KnowledgeGuideViewSourceWizard(models.TransientModel):
     page_id = fields.Many2one(
         'knowledge.guide.page',
         required=True,
-    )
+        help="Links the knowledge.guide.page record(s) used by this operation wizard.")
     source_code = fields.Text(
         string='HTML 源码',
         compute='_compute_source_code',
-    )
+        help="Stores the HTML 源码 content shown or processed in the the knowledge guide wizard workflow.")
 
     @api.depends('page_id')
     def _compute_source_code(self):

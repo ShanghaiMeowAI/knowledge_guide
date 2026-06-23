@@ -17,6 +17,47 @@ class KnowledgeGuideController(http.Controller):
     # Backend routes (JSON-RPC, auth='user')
     # ==================================================================
 
+    def _get_available_languages(self):
+        """Return active Odoo languages available for guide rendering."""
+        languages = request.env['res.lang'].sudo().search([('active', '=', True)])
+        return [
+            {
+                'code': language.code,
+                'name': language.name,
+            }
+            for language in languages
+        ]
+
+    def _get_language_context(self, requested_lang=None):
+        """Resolve guide language from manual choice or the current user.
+
+        The guide follows the logged-in user's language by default. When a
+        reader manually chooses another active language, translated fields are
+        read with that language in the Odoo context.
+        """
+        languages = self._get_available_languages()
+        language_codes = {language['code'] for language in languages}
+        user_lang = (
+            request.env.user.lang
+            or request.env.context.get('lang')
+            or request.env['res.lang']._get_default_lang().code
+        )
+
+        if requested_lang in language_codes:
+            current_lang = requested_lang
+        elif user_lang in language_codes:
+            current_lang = user_lang
+        elif languages:
+            current_lang = languages[0]['code']
+        else:
+            current_lang = user_lang
+
+        return {
+            'current_lang': current_lang,
+            'user_lang': user_lang,
+            'languages': languages,
+        }
+
     def _page_to_json(self, page):
         """Serialize a guide page for the backend OWL client action."""
         xmlid = page.get_external_id().get(page.id, '')
@@ -42,7 +83,7 @@ class KnowledgeGuideController(http.Controller):
         }
 
     @http.route('/knowledge_guide/get_pages', type='jsonrpc', auth='user')
-    def get_pages(self, search_term=None):
+    def get_pages(self, search_term=None, lang=None):
         """Return all pages the current user is allowed to see.
 
         Args:
@@ -54,8 +95,12 @@ class KnowledgeGuideController(http.Controller):
                 'categories': [unique categories]
             }
         """
+        language_context = self._get_language_context(lang)
         user = request.env.user
         user_groups = user.group_ids.ids
+        Page = request.env['knowledge.guide.page'].with_context(
+            lang=language_context['current_lang']
+        )
 
         domain = [
             ('active', '=', True),
@@ -72,7 +117,7 @@ class KnowledgeGuideController(http.Controller):
                 ('custom_content_html', 'ilike', search_term),
             ]
 
-        pages = request.env['knowledge.guide.page'].search(domain)
+        pages = Page.search(domain)
 
         pages_data = []
         categories = []
@@ -85,15 +130,21 @@ class KnowledgeGuideController(http.Controller):
         return {
             'pages': pages_data,
             'categories': categories,
+            'current_lang': language_context['current_lang'],
+            'user_lang': language_context['user_lang'],
+            'languages': language_context['languages'],
         }
 
     @http.route('/knowledge_guide/get_page', type='jsonrpc', auth='user')
-    def get_page(self, page_id):
+    def get_page(self, page_id, lang=None):
         """Return a single page by ID, applying group-based access control."""
+        language_context = self._get_language_context(lang)
         user = request.env.user
         user_groups = user.group_ids.ids
 
-        page = request.env['knowledge.guide.page'].browse(page_id)
+        page = request.env['knowledge.guide.page'].with_context(
+            lang=language_context['current_lang']
+        ).browse(page_id)
 
         if not page.exists() or not page.active:
             return False
@@ -153,14 +204,17 @@ class KnowledgeGuideController(http.Controller):
 
         URL: /guide/<slug>?token=<uuid>
         """
-        book = self._get_published_book(slug, token)
+        language_context = self._get_language_context(kwargs.get('lang'))
+        book = self._get_published_book(slug, token).with_context(
+            lang=language_context['current_lang']
+        )
         categories, all_pages = self._get_book_pages_by_category(book)
 
         selected_page = all_pages[0] if all_pages else None
         prev_page, next_page = self._get_prev_next(all_pages, selected_page)
 
         return self._render_guide(book, categories, all_pages, selected_page,
-                                   prev_page, next_page, token)
+                                   prev_page, next_page, token, language_context)
 
     @http.route(
         '/guide/<string:slug>/<int:page_id>',
@@ -174,25 +228,31 @@ class KnowledgeGuideController(http.Controller):
 
         URL: /guide/<slug>/<page_id>?token=<uuid>
         """
-        book = self._get_published_book(slug, token)
+        language_context = self._get_language_context(kwargs.get('lang'))
+        book = self._get_published_book(slug, token).with_context(
+            lang=language_context['current_lang']
+        )
         categories, all_pages = self._get_book_pages_by_category(book)
 
-        selected_page = request.env['knowledge.guide.page'].sudo().browse(page_id)
+        selected_page = request.env['knowledge.guide.page'].sudo().with_context(
+            lang=language_context['current_lang']
+        ).browse(page_id)
         if not selected_page.exists() or selected_page.book_id != book or not selected_page.active:
             raise NotFound()
 
         prev_page, next_page = self._get_prev_next(all_pages, selected_page)
 
         return self._render_guide(book, categories, all_pages, selected_page,
-                                   prev_page, next_page, token)
+                                   prev_page, next_page, token, language_context)
 
     def _render_guide(self, book, categories, all_pages, selected_page,
-                      prev_page, next_page, token):
+                      prev_page, next_page, token, language_context=None):
         """Render the public template prefixed with an HTML5 doctype.
 
         The DOCTYPE is not included in the QWeb template (it is not valid
         XML), so we prepend it manually to the rendered HTML.
         """
+        language_context = language_context or self._get_language_context()
         response = request.render('knowledge_guide.guide_book_public', {
             'book': book,
             'categories': categories,
@@ -205,6 +265,9 @@ class KnowledgeGuideController(http.Controller):
                 for page in all_pages
             },
             'token': token,
+            'current_lang': language_context['current_lang'],
+            'user_lang': language_context['user_lang'],
+            'languages': language_context['languages'],
         })
         response.flatten()
         html_content = response.data
