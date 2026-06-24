@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.6.2',
+    'version': '19.0.1.6.3',
     'category': 'Productivity',
     'summary': '提供可搜索、可发布、可邮件分享的知识库指南。',
     'description': """
@@ -28,7 +28,6 @@ Knowledge Guide
     """,
     'author': '上海妙妙游智能科技有限公司',
     'maintainer': '上海妙妙游智能科技有限公司',
-    'website': 'https://www.mmiao.net/',
     'copyright': '© 上海妙妙游智能科技有限公司 2026',
     'license': 'LGPL-3',
     'depends': [
