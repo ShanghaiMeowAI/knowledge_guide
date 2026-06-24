@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.6.3',
+    'version': '19.0.1.6.4',
     'category': 'Productivity',
     'summary': '提供可搜索、可发布、可邮件分享的知识库指南。',
     'description': """
@@ -46,6 +46,7 @@ Knowledge Guide
         'wizard/knowledge_guide_send_wizard_views.xml',
         'wizard/knowledge_guide_view_source_wizard_views.xml',
         'data/email_templates.xml',
+        'data/odoo_knowledge_app_cleanup.xml',
     ],
     'assets': {
         'web.assets_backend': [

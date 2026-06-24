@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <function model="ir.module.module" name="knowledge_guide_hide_odoo_knowledge_app"/>
+    </data>
+</odoo>
