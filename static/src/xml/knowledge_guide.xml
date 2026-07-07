@@ -10,7 +10,7 @@
                 <!-- Search bar -->
                 <div class="user-guide-search">
                     <div class="user-guide-language-selector" t-if="state.languages.length">
-                        <label for="knowledge_guide_language">语言</label>
+                        <label for="knowledge_guide_language">Language</label>
                         <select
                             id="knowledge_guide_language"
                             class="form-select"
@@ -30,7 +30,7 @@
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="搜索指南内容..."
+                        placeholder="Search guide content..."
                         t-model="state.searchTerm"
                         t-on-input="onSearchInput"
                     />
@@ -41,21 +41,21 @@
                     <t t-if="state.loading">
                         <div style="text-align: center; padding: 20px;">
                             <i class="fa fa-spinner fa-spin fa-2x"/>
-                            <p>加载中...</p>
+                            <p>Loading...</p>
                         </div>
                     </t>
 
                     <t t-elif="state.error">
                         <div style="text-align: center; padding: 20px; color: #dc3545;">
                             <i class="fa fa-exclamation-triangle fa-2x"/>
-                            <p>加载失败</p>
+                            <p>Failed to load</p>
                         </div>
                     </t>
 
                     <t t-elif="state.pages.length === 0">
                         <div class="user-guide-no-results">
                             <i class="fa fa-search"/>
-                            <p>没有找到匹配页面</p>
+                            <p>No matching pages found</p>
                         </div>
                     </t>
 
@@ -118,8 +118,8 @@
                 <t t-else="">
                     <div class="user-guide-empty-state">
                         <i class="fa fa-book"/>
-                        <h3>知识库指南</h3>
-                        <p>从左侧选择一个章节开始阅读。</p>
+                        <h3>Knowledge Guide</h3>
+                        <p>Select a section from the left to start reading.</p>
                     </div>
                 </t>
             </div>

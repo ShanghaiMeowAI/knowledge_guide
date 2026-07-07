@@ -10,6 +10,109 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+# USER-FACING MENU/ACTION TRANSLATIONS - START
+#. module: knowledge_guide
+#: model:ir.actions.client,name:knowledge_guide.action_knowledge_guide_client
+#: model:ir.ui.menu,name:knowledge_guide.menu_knowledge_guide_main
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "User Guide"
+msgstr "使用指南"
+
+#. module: knowledge_guide
+#: model:ir.ui.menu,name:knowledge_guide.menu_knowledge_guide_admin
+msgid "Knowledge Guides"
+msgstr "知识库指南"
+
+#. module: knowledge_guide
+#: model:ir.ui.menu,name:knowledge_guide.menu_knowledge_guide_books
+msgid "Guide Books"
+msgstr "指南合集"
+
+#. module: knowledge_guide
+#: model:ir.ui.menu,name:knowledge_guide.menu_knowledge_guide_pages
+msgid "Guide Pages"
+msgstr "指南页面"
+
+# USER-FACING MENU/ACTION TRANSLATIONS - END
+
+# MODULE METADATA TRANSLATIONS - START
+#. module: knowledge_guide
+#: model:ir.module.module,shortdesc:knowledge_guide.module_meta_information
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "Knowledge Guide"
+msgstr "知识库指南"
+
+#. module: knowledge_guide
+#: model:ir.module.module,summary:knowledge_guide.module_meta_information
+msgid "Searchable, publishable, and shareable knowledge guide for Odoo users."
+msgstr "提供可搜索、可发布、可邮件分享的知识库指南。"
+
+# MODULE METADATA TRANSLATIONS - END
+
+# USER-FACING TEMPLATE/JS TRANSLATIONS - START
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "Language"
+msgstr "语言"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "Search guide content..."
+msgstr "搜索指南内容..."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "Loading..."
+msgstr "加载中..."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "Failed to load"
+msgstr "加载失败"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "No matching pages found"
+msgstr "没有找到匹配页面"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
+msgid "Select a section from the left to start reading."
+msgstr "从左侧选择一个章节开始阅读。"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "Previous page"
+msgstr "上一页"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "Next page"
+msgstr "下一页"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "This guide does not have any pages yet"
+msgstr "这个指南还没有页面"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/views/guide_public_templates.xml:0
+msgid "Administrators can add guide pages in the backend."
+msgstr "管理员可以在后台继续添加指南页面。"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/js/knowledge_guide.js:0
+msgid "The matching guide section was not found."
+msgstr "未找到对应的指南章节。"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/static/src/js/knowledge_guide.js:0
+msgid "No target page is configured. Ask an administrator to check the guide button."
+msgstr "未配置对应页面，请联系管理员检查指南按钮。"
+
+# USER-FACING TEMPLATE/JS TRANSLATIONS - END
+
 
 # GENERATED FIELD HELP TOOLTIP TRANSLATIONS - START
 #. module: knowledge_guide

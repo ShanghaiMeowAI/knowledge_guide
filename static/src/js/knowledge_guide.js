@@ -99,7 +99,7 @@ class KnowledgeGuide extends Component {
         const page = this.state.pages.find((item) => item.xmlid === xmlid);
         if (!page) {
             this.notification.add(
-                _t("未找到对应的指南章节。"),
+                _t("The matching guide section was not found."),
                 { type: "warning" }
             );
             return;
@@ -217,7 +217,7 @@ class KnowledgeGuide extends Component {
     openOdooActionInNewTab(actionXmlid) {
         if (!actionXmlid) {
             this.notification.add(
-                _t("未配置对应页面，请联系管理员检查指南按钮。"),
+                _t("No target page is configured. Ask an administrator to check the guide button."),
                 { type: "warning" }
             );
             return;
