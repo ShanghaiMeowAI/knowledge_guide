@@ -17,13 +17,13 @@
         web_icon="knowledge_guide,static/description/icon.png"
     />
 
-    <!-- Admin menu (Settings > Technical) -->
+    <!-- Guide maintenance is implementation work; keep it behind debug mode so customer admins use the reader entry. -->
     <menuitem
         id="menu_knowledge_guide_admin"
         name="Knowledge Guides"
         parent="base.menu_administration"
         sequence="50"
-        groups="base.group_system"
+        groups="base.group_no_one"
     />
 
     <menuitem
@@ -32,6 +32,7 @@
         parent="menu_knowledge_guide_admin"
         action="action_knowledge_guide_book"
         sequence="5"
+        groups="base.group_no_one"
     />
 
     <menuitem
@@ -40,6 +41,7 @@
         parent="menu_knowledge_guide_admin"
         action="action_knowledge_guide_page"
         sequence="10"
+        groups="base.group_no_one"
     />
 
 </odoo>
