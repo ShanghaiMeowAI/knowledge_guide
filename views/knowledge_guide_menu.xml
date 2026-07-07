@@ -17,13 +17,13 @@
         web_icon="knowledge_guide,static/description/icon.png"
     />
 
-    <!-- Guide maintenance is implementation work; keep it behind debug mode so customer admins use the reader entry. -->
+    <!-- Guide maintenance is implementation work; remove the previous admin group and keep it behind debug mode. -->
     <menuitem
         id="menu_knowledge_guide_admin"
         name="Knowledge Guides"
         parent="base.menu_administration"
         sequence="50"
-        groups="base.group_no_one"
+        groups="-base.group_system,base.group_no_one"
     />
 
     <menuitem
