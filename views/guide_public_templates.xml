@@ -12,7 +12,7 @@
             <meta charset="UTF-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta name="robots" content="noindex, nofollow"/>
-            <title><t t-out="page_title"/> - 使用指南</title>
+            <title><t t-out="page_title"/> - User Guide</title>
             <link rel="stylesheet"
                   t-att-href="'/knowledge_guide/static/src/css/guide_public.css'"/>
             <link rel="stylesheet"
@@ -39,7 +39,7 @@
                         </h2>
                         <t t-if="languages">
                             <div class="gp-language-selector">
-                                <label for="publicGuideLanguage">语言</label>
+                                <label for="publicGuideLanguage">Language</label>
                                 <select id="publicGuideLanguage" onchange="switchGuideLanguage(this.value)">
                                     <t t-foreach="languages" t-as="language">
                                         <option t-att-value="language['code']"
@@ -119,7 +119,7 @@
                                     <a class="gp-pagination-btn gp-pagination-prev"
                                        t-att-href="base_url + '/' + str(prev_page.id) + query_string">
                                         <i class="fa fa-arrow-left"></i>
-                                        <span class="gp-pagination-label">上一页</span>
+                                        <span class="gp-pagination-label">Previous page</span>
                                         <span class="gp-pagination-title"><t t-out="prev_page.name"/></span>
                                     </a>
                                 </t>
@@ -129,7 +129,7 @@
                                 <t t-if="next_page">
                                     <a class="gp-pagination-btn gp-pagination-next"
                                        t-att-href="base_url + '/' + str(next_page.id) + query_string">
-                                        <span class="gp-pagination-label">下一页</span>
+                                        <span class="gp-pagination-label">Next page</span>
                                         <span class="gp-pagination-title"><t t-out="next_page.name"/></span>
                                         <i class="fa fa-arrow-right"></i>
                                     </a>
@@ -139,8 +139,8 @@
                         <t t-else="">
                             <div class="gp-empty-state">
                                 <i class="fa fa-book fa-3x"></i>
-                                <h3>这个指南还没有页面</h3>
-                                <p>管理员可以在后台继续添加指南页面。</p>
+                                <h3>This guide does not have any pages yet</h3>
+                                <p>Administrators can add guide pages in the backend.</p>
                             </div>
                         </t>
                     </div>
