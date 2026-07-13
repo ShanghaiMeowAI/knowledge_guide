@@ -3,7 +3,7 @@
 
     <!-- Client action (user-facing) -->
     <record id="action_knowledge_guide_client" model="ir.actions.client">
-        <field name="name">使用指南</field>
+        <field name="name">User Guide</field>
         <field name="tag">knowledge_guide.main</field>
         <field name="target">current</field>
     </record>
@@ -11,35 +11,37 @@
     <!-- Main menu (visible to all users) -->
     <menuitem
         id="menu_knowledge_guide_main"
-        name="使用指南"
+        name="User Guide"
         action="action_knowledge_guide_client"
         sequence="100"
         web_icon="knowledge_guide,static/description/icon.png"
     />
 
-    <!-- Admin menu (Settings > Technical) -->
+    <!-- Guide maintenance is implementation work; remove the previous admin group and keep it behind debug mode. -->
     <menuitem
         id="menu_knowledge_guide_admin"
-        name="知识库指南"
+        name="Knowledge Guides"
         parent="base.menu_administration"
         sequence="50"
-        groups="base.group_system"
+        groups="-base.group_system,base.group_no_one"
     />
 
     <menuitem
         id="menu_knowledge_guide_books"
-        name="指南合集"
+        name="Guide Books"
         parent="menu_knowledge_guide_admin"
         action="action_knowledge_guide_book"
         sequence="5"
+        groups="base.group_no_one"
     />
 
     <menuitem
         id="menu_knowledge_guide_pages"
-        name="指南页面"
+        name="Guide Pages"
         parent="menu_knowledge_guide_admin"
         action="action_knowledge_guide_page"
         sequence="10"
+        groups="base.group_no_one"
     />
 
 </odoo>

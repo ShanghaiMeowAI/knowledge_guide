@@ -3,28 +3,28 @@
     'name': 'Knowledge Guide',
     'version': '19.0.1.7.0',
     'category': 'Productivity',
-    'summary': '提供可搜索、可发布、可邮件分享的知识库指南。',
+    'summary': 'Searchable, publishable, and shareable knowledge guide for Odoo users.',
     'description': """
 Knowledge Guide
 ===============
 
-这个模块提供一个通用的内置知识库和用户指南入口。
+This module provides a generic built-in knowledge base and user guide entry point.
 
-核心能力
---------
-* 按分类维护指南页面，支持后台实时搜索和内容高亮。
-* 管理员可以把多个页面组成指南合集，并通过带 token 的公开链接发布。
-* 保留模块原始内容，同时允许管理员通过自定义内容覆盖展示版本。
-* 支持按用户组控制后台可见页面。
-* 支持生成 link.tracker 跟踪链接，统计公开指南访问量。
-* 支持邮件向导，将指南链接发送给多个联系人。
-* 其他模块可以通过 XML 数据文件继续贡献自己的帮助页面。
+Core Capabilities
+-----------------
+* Maintain guide pages by category with backend live search and content highlighting.
+* Let administrators assemble pages into guide books and publish them through tokenized public links.
+* Preserve module-provided content while allowing administrators to override the displayed version.
+* Restrict backend guide visibility by user group.
+* Generate link.tracker URLs to measure visits to public guides.
+* Send guide links to multiple contacts through an email wizard.
+* Allow other modules to contribute help pages through XML data files.
 
-适用场景
---------
-* 内部用户培训和上线指引。
-* 客户使用手册和功能说明。
-* 业务模块交付时补充可搜索、可发布的帮助页面。
+Use Cases
+---------
+* Internal user training and go-live guidance.
+* Customer user manuals and feature explanations.
+* Searchable and publishable help pages delivered alongside business modules.
     """,
     'author': '上海妙妙游智能科技有限公司',
     'maintainer': '上海妙妙游智能科技有限公司',
