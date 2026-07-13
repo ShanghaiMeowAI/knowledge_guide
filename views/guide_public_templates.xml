@@ -52,29 +52,43 @@
                         </t>
                     </div>
                     <nav class="gp-sidebar-nav">
-                        <t t-foreach="categories" t-as="cat_name">
-                            <t t-set="has_active_page" t-value="selected_page and selected_page.category == cat_name"/>
-                            <div class="gp-nav-category">
-                                <div class="gp-nav-category-title"
-                                     t-att-data-category="cat_name"
-                                     onclick="togglePublicCategory(this)">
+                        <t t-foreach="sections" t-as="section_name">
+                            <t t-set="section_active" t-value="selected_page and selected_page.section == section_name"/>
+                            <div class="gp-nav-section">
+                                <div class="gp-nav-section-title" onclick="togglePublicCategory(this)">
                                     <i class="fa gp-chevron"
-                                       t-att-class="'fa-chevron-right' if not has_active_page else 'fa-chevron-down'"></i>
-                                    <i class="fa fa-folder-open"></i>
-                                    <t t-out="cat_name"/>
+                                       t-att-class="'fa-chevron-down' if section_active else 'fa-chevron-right'"></i>
+                                    <i class="fa fa-cubes"></i>
+                                    <t t-out="section_name"/>
                                 </div>
-                                <ul class="gp-nav-pages"
-                                    t-att-class="'' if has_active_page else 'collapsed'">
-                                    <t t-foreach="categories[cat_name]" t-as="nav_page">
-                                        <li t-att-class="'gp-nav-page-item' + (' active' if selected_page and nav_page.id == selected_page.id else '')">
-                                            <a t-att-href="base_url + '/' + str(nav_page.id) + query_string"
-                                               t-att-data-guide-page-xmlid="page_xmlids.get(nav_page.id, '')">
-                                                <i t-att-class="'fa ' + (nav_page.icon or 'fa-file-text-o')"></i>
-                                                <t t-out="nav_page.name"/>
-                                            </a>
-                                        </li>
+                                <div class="gp-nav-section-categories"
+                                     t-att-class="'' if section_active else 'collapsed'">
+                                    <t t-foreach="sections[section_name]" t-as="cat_name">
+                                        <t t-set="has_active_page" t-value="section_active and selected_page.category == cat_name"/>
+                                        <div class="gp-nav-category">
+                                            <div class="gp-nav-category-title"
+                                                 t-att-data-category="cat_name"
+                                                 onclick="togglePublicCategory(this)">
+                                                <i class="fa gp-chevron"
+                                                   t-att-class="'fa-chevron-down' if has_active_page else 'fa-chevron-right'"></i>
+                                                <i class="fa fa-folder-open"></i>
+                                                <t t-out="cat_name"/>
+                                            </div>
+                                            <ul class="gp-nav-pages"
+                                                t-att-class="'' if has_active_page else 'collapsed'">
+                                                <t t-foreach="sections[section_name][cat_name]" t-as="nav_page">
+                                                    <li t-att-class="'gp-nav-page-item' + (' active' if selected_page and nav_page.id == selected_page.id else '')">
+                                                        <a t-att-href="base_url + '/' + str(nav_page.id) + query_string"
+                                                           t-att-data-guide-page-xmlid="page_xmlids.get(nav_page.id, '')">
+                                                            <i t-att-class="'fa ' + (nav_page.icon or 'fa-file-text-o')"></i>
+                                                            <t t-out="nav_page.name"/>
+                                                        </a>
+                                                    </li>
+                                                </t>
+                                            </ul>
+                                        </div>
                                     </t>
-                                </ul>
+                                </div>
                             </div>
                         </t>
                     </nav>
@@ -104,6 +118,8 @@
                                 <div class="gp-article-header">
                                     <span class="gp-article-category">
                                         <i class="fa fa-tag"></i>
+                                        <t t-out="selected_page.section"/>
+                                        <span>/</span>
                                         <t t-out="selected_page.category"/>
                                     </span>
                                     <h2 class="gp-article-title"><t t-out="selected_page.name"/></h2>

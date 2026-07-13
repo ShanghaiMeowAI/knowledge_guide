@@ -60,29 +60,46 @@
                     </t>
 
                     <t t-else="">
-                        <t t-foreach="state.categories" t-as="category" t-key="category">
-                            <div class="user-guide-category">
-                                <div class="user-guide-category-title"
-                                     t-on-click="() => this.toggleCategory(category)">
+                        <t t-foreach="state.sections" t-as="section" t-key="section">
+                            <div class="user-guide-section">
+                                <div class="user-guide-section-title"
+                                     t-on-click="() => this.toggleSection(section)">
                                     <i class="fa"
                                        t-att-class="{
-                                           'fa-chevron-right': !isCategoryExpanded(category),
-                                           'fa-chevron-down': isCategoryExpanded(category)
+                                           'fa-chevron-right': !isSectionExpanded(section),
+                                           'fa-chevron-down': isSectionExpanded(section)
                                        }"
                                        style="transition: transform 0.2s; width: 14px;"/>
-                                    <i class="fa fa-folder-open"/>
-                                    <span t-esc="category"/>
+                                    <i class="fa fa-cubes"/>
+                                    <span t-esc="section"/>
                                 </div>
-                                <div class="user-guide-category-pages"
-                                     t-att-class="{ 'collapsed': !isCategoryExpanded(category) }">
-                                    <t t-foreach="getPagesByCategory(category)" t-as="page" t-key="page.id">
-                                        <div
-                                            class="user-guide-page-item"
-                                            t-att-class="{ 'active': isPageSelected(page) }"
-                                            t-on-click="() => this.selectPage(page)"
-                                        >
-                                            <i t-att-class="'fa ' + page.icon" style="margin-right: 8px;"/>
-                                            <span t-esc="page.name"/>
+                                <div class="user-guide-section-categories"
+                                     t-att-class="{ 'collapsed': !isSectionExpanded(section) }">
+                                    <t t-foreach="getCategoriesBySection(section)" t-as="category" t-key="section + '::' + category">
+                                        <div class="user-guide-category">
+                                            <div class="user-guide-category-title"
+                                                 t-on-click="() => this.toggleCategory(getCategoryKey(section, category))">
+                                                <i class="fa"
+                                                   t-att-class="{
+                                                       'fa-chevron-right': !isCategoryExpanded(getCategoryKey(section, category)),
+                                                       'fa-chevron-down': isCategoryExpanded(getCategoryKey(section, category))
+                                                   }"/>
+                                                <i class="fa fa-folder-open"/>
+                                                <span t-esc="category"/>
+                                            </div>
+                                            <div class="user-guide-category-pages"
+                                                 t-att-class="{ 'collapsed': !isCategoryExpanded(getCategoryKey(section, category)) }">
+                                                <t t-foreach="getPagesBySectionCategory(section, category)" t-as="page" t-key="page.id">
+                                                    <div
+                                                        class="user-guide-page-item"
+                                                        t-att-class="{ 'active': isPageSelected(page) }"
+                                                        t-on-click="() => this.selectPage(page)"
+                                                    >
+                                                        <i t-att-class="'fa ' + page.icon" style="margin-right: 8px;"/>
+                                                        <span t-esc="page.name"/>
+                                                    </div>
+                                                </t>
+                                            </div>
                                         </div>
                                     </t>
                                 </div>

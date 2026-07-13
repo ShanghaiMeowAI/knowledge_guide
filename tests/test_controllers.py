@@ -70,6 +70,44 @@ class TestKnowledgeGuidePublicController(TransactionCase):
         self.assertEqual(data['action_links'][0]['id'], link.id)
         self.assertEqual(data['action_links'][0]['action_xmlid'], 'base.action_partner_form')
 
+    def test_page_to_json_includes_top_level_directory(self):
+        page = self.Page.create({
+            'name': 'Nested page',
+            'section': 'Mail foundation',
+            'section_sequence': 10,
+            'category': 'Mailbox',
+            'content_html': '<p>Nested navigation</p>',
+        })
+
+        data = self.controller._page_to_json(page)
+
+        self.assertEqual(data['section'], 'Mail foundation')
+        self.assertEqual(data['category'], 'Mailbox')
+
+    def test_public_navigation_groups_section_before_category(self):
+        book, first_page = self._make_published_book(slug='nested-navigation')
+        first_page.write({
+            'section': 'Mail foundation',
+            'section_sequence': 10,
+            'category': 'Mailbox',
+        })
+        customer_page = self.Page.create({
+            'name': 'Customer workflow',
+            'section': 'Customer extension',
+            'section_sequence': 20,
+            'category': 'Sales',
+            'content_html': '<p>Customer-specific content</p>',
+            'book_id': book.id,
+        })
+
+        sections, pages = self.controller._get_book_pages_by_category(book)
+
+        self.assertEqual(list(sections), ['Mail foundation', 'Customer extension'])
+        self.assertEqual(list(sections['Mail foundation']), ['Mailbox'])
+        self.assertEqual(sections['Mail foundation']['Mailbox'], [first_page])
+        self.assertEqual(sections['Customer extension']['Sales'], [customer_page])
+        self.assertEqual(list(pages), [first_page, customer_page])
+
     def test_page_to_json_includes_external_id_for_module_pages(self):
         """Backend page payload includes XMLID for guide chapter links."""
         page = self.Page.create({

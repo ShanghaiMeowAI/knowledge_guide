@@ -66,6 +66,7 @@ class KnowledgeGuideController(http.Controller):
             'xmlid': xmlid,
             'name': page.name,
             'content_html': page.display_content_html or '',
+            'section': page.section or '通用指南',
             'category': page.category,
             'icon': page.icon,
             'sequence': page.sequence,
@@ -120,16 +121,16 @@ class KnowledgeGuideController(http.Controller):
         pages = Page.search(domain)
 
         pages_data = []
-        categories = []
+        sections = []
 
         for page in pages:
             pages_data.append(self._page_to_json(page))
-            if page.category not in categories:
-                categories.append(page.category)
+            if page.section not in sections:
+                sections.append(page.section)
 
         return {
             'pages': pages_data,
-            'categories': categories,
+            'sections': sections,
             'current_lang': language_context['current_lang'],
             'user_lang': language_context['user_lang'],
             'languages': language_context['languages'],
@@ -180,17 +181,22 @@ class KnowledgeGuideController(http.Controller):
         return book
 
     def _get_book_pages_by_category(self, book):
-        """Group the active pages of a book by category."""
+        """Group active pages as top-level directory, category, then page."""
         pages = book.page_ids.filtered('active').sorted(
-            key=lambda p: (p.sequence, p.name)
+            key=lambda p: (
+                p.section_sequence,
+                p.section or '',
+                p.sequence,
+                p.category or '',
+                p.name,
+            )
         )
-        categories = OrderedDict()
+        sections = OrderedDict()
         for page in pages:
+            section = page.section or '通用指南'
             cat = page.category or 'General'
-            if cat not in categories:
-                categories[cat] = []
-            categories[cat].append(page)
-        return categories, pages
+            sections.setdefault(section, OrderedDict()).setdefault(cat, []).append(page)
+        return sections, pages
 
     @http.route(
         '/guide/<string:slug>',
@@ -208,12 +214,12 @@ class KnowledgeGuideController(http.Controller):
         book = self._get_published_book(slug, token).with_context(
             lang=language_context['current_lang']
         )
-        categories, all_pages = self._get_book_pages_by_category(book)
+        sections, all_pages = self._get_book_pages_by_category(book)
 
         selected_page = all_pages[0] if all_pages else None
         prev_page, next_page = self._get_prev_next(all_pages, selected_page)
 
-        return self._render_guide(book, categories, all_pages, selected_page,
+        return self._render_guide(book, sections, all_pages, selected_page,
                                    prev_page, next_page, token, language_context)
 
     @http.route(
@@ -232,7 +238,7 @@ class KnowledgeGuideController(http.Controller):
         book = self._get_published_book(slug, token).with_context(
             lang=language_context['current_lang']
         )
-        categories, all_pages = self._get_book_pages_by_category(book)
+        sections, all_pages = self._get_book_pages_by_category(book)
 
         selected_page = request.env['knowledge.guide.page'].sudo().with_context(
             lang=language_context['current_lang']
@@ -242,10 +248,10 @@ class KnowledgeGuideController(http.Controller):
 
         prev_page, next_page = self._get_prev_next(all_pages, selected_page)
 
-        return self._render_guide(book, categories, all_pages, selected_page,
+        return self._render_guide(book, sections, all_pages, selected_page,
                                    prev_page, next_page, token, language_context)
 
-    def _render_guide(self, book, categories, all_pages, selected_page,
+    def _render_guide(self, book, sections, all_pages, selected_page,
                       prev_page, next_page, token, language_context=None):
         """Render the public template prefixed with an HTML5 doctype.
 
@@ -255,7 +261,7 @@ class KnowledgeGuideController(http.Controller):
         language_context = language_context or self._get_language_context()
         response = request.render('knowledge_guide.guide_book_public', {
             'book': book,
-            'categories': categories,
+            'sections': sections,
             'all_pages': all_pages,
             'selected_page': selected_page,
             'prev_page': prev_page,
