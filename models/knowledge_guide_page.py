@@ -15,7 +15,7 @@ class KnowledgeGuidePage(models.Model):
     """
     _name = 'knowledge.guide.page'
     _description = 'Knowledge Guide Page'
-    _order = 'sequence, category, name'
+    _order = 'section_sequence, section, sequence, category, name'
 
     name = fields.Char(
         string='标题',
@@ -56,6 +56,20 @@ class KnowledgeGuidePage(models.Model):
         string='Sequence',
         default=10,
         help='Display order (lower comes first).',
+    )
+
+    section = fields.Char(
+        string='一级目录',
+        required=True,
+        default='通用指南',
+        translate=True,
+        help='Top-level directory used to separate products or business domains.',
+    )
+
+    section_sequence = fields.Integer(
+        string='一级目录排序',
+        default=10,
+        help='Controls the order of top-level directories.',
     )
 
     category = fields.Char(
@@ -131,10 +145,10 @@ class KnowledgeGuidePage(models.Model):
             'target': 'new',
         }
 
-    @api.depends('name', 'category')
+    @api.depends('name', 'section', 'category')
     def _compute_display_name(self):
         for record in self:
-            record.display_name = f"[{record.category}] {record.name}"
+            record.display_name = f"[{record.section} / {record.category}] {record.name}"
 
     @api.model
     def _cleanup_legacy_sample_pages(self):

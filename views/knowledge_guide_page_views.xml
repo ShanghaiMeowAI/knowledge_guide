@@ -16,6 +16,7 @@
                 </header>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
+                <field name="section"/>
                 <field name="category"/>
                 <field name="book_id" optional="show"/>
                 <field name="module_source"/>
@@ -38,10 +39,12 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="section"/>
                             <field name="category"/>
                             <field name="icon"/>
                         </group>
                         <group>
+                            <field name="section_sequence"/>
                             <field name="sequence"/>
                             <field name="book_id"/>
                             <field name="module_source"/>
@@ -94,12 +97,14 @@
         <field name="arch" type="xml">
             <search string="搜索指南页面">
                 <field name="name"/>
+                <field name="section"/>
                 <field name="category"/>
                 <field name="module_source"/>
                 <field name="book_id"/>
                 <filter name="active" string="启用" domain="[('active', '=', True)]"/>
                 <filter name="archived" string="已归档" domain="[('active', '=', False)]"/>
                 <group>
+                    <filter name="group_by_section" string="一级目录" context="{'group_by': 'section'}"/>
                     <filter name="group_by_category" string="分类" context="{'group_by': 'category'}"/>
                     <filter name="group_by_book" string="合集" context="{'group_by': 'book_id'}"/>
                     <filter name="group_by_module" string="来源模块" context="{'group_by': 'module_source'}"/>

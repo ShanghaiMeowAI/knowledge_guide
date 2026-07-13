@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.6.2',
+    'version': '19.0.1.7.0',
     'category': 'Productivity',
     'summary': '提供可搜索、可发布、可邮件分享的知识库指南。',
     'description': """

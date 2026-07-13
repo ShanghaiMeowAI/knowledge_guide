@@ -20,7 +20,7 @@ class KnowledgeGuide extends Component {
 
         this.state = useState({
             pages: [],
-            categories: [],
+            sections: [],
             selectedPage: null,
             searchTerm: "",
             currentLang: window.localStorage.getItem("knowledge_guide_lang") || "",
@@ -29,6 +29,7 @@ class KnowledgeGuide extends Component {
             loading: true,
             error: false,
             expandedCategories: [],
+            expandedSections: [],
         });
 
         onWillStart(async () => {
@@ -58,10 +59,19 @@ class KnowledgeGuide extends Component {
             this.state.languages = result.languages || [];
             this.state.pages = result.pages.map((p) => ({
                 ...p,
+                section: p.section || _t("通用指南"),
                 action_links: p.action_links || [],
                 content_html: markup(p.content_html || ""),
             }));
-            this.state.categories = result.categories;
+            this.state.sections = result.sections || this.state.pages.reduce(
+                (sections, page) => {
+                    if (!sections.includes(page.section)) {
+                        sections.push(page.section);
+                    }
+                    return sections;
+                },
+                []
+            );
             this.state.loading = false;
 
             // When searching, do not auto-select.
@@ -84,8 +94,12 @@ class KnowledgeGuide extends Component {
 
         this.state.selectedPage = page;
 
-        if (page && page.category && !this.isCategoryExpanded(page.category)) {
-            this.state.expandedCategories = [...this.state.expandedCategories, page.category];
+        if (page?.section && !this.isSectionExpanded(page.section)) {
+            this.state.expandedSections = [...this.state.expandedSections, page.section];
+        }
+        const categoryKey = this.getCategoryKey(page?.section, page?.category);
+        if (page?.category && !this.isCategoryExpanded(categoryKey)) {
+            this.state.expandedCategories = [...this.state.expandedCategories, categoryKey];
         }
 
         setTimeout(() => {
@@ -172,8 +186,25 @@ class KnowledgeGuide extends Component {
         }
     }
 
-    getPagesByCategory(category) {
-        return this.state.pages.filter((p) => p.category === category);
+    getCategoriesBySection(section) {
+        return this.state.pages
+            .filter((page) => page.section === section)
+            .reduce((categories, page) => {
+                if (!categories.includes(page.category)) {
+                    categories.push(page.category);
+                }
+                return categories;
+            }, []);
+    }
+
+    getPagesBySectionCategory(section, category) {
+        return this.state.pages.filter(
+            (page) => page.section === section && page.category === category
+        );
+    }
+
+    getCategoryKey(section, category) {
+        return `${section || ""}::${category || ""}`;
     }
 
     isPageSelected(page) {
@@ -187,6 +218,16 @@ class KnowledgeGuide extends Component {
             );
         } else {
             this.state.expandedCategories = [...this.state.expandedCategories, category];
+        }
+    }
+
+    toggleSection(section) {
+        if (this.isSectionExpanded(section)) {
+            this.state.expandedSections = this.state.expandedSections.filter(
+                (item) => item !== section
+            );
+        } else {
+            this.state.expandedSections = [...this.state.expandedSections, section];
         }
     }
 
@@ -231,6 +272,10 @@ class KnowledgeGuide extends Component {
 
     isCategoryExpanded(category) {
         return this.state.expandedCategories.includes(category);
+    }
+
+    isSectionExpanded(section) {
+        return this.state.expandedSections.includes(section);
     }
 
     /**
