@@ -494,6 +494,16 @@
     background: #fff;
 }
 
+/*
+ * Customer walkthrough screenshots keep their original Odoo form evidence,
+ * while the shared 25px test-database banner is cropped from the visible area.
+ */
+.user-guide-content.kg-screenshot-set--crop-top-banner .kg-screenshot img {
+    aspect-ratio: 1280 / 695;
+    object-fit: cover;
+    object-position: bottom;
+}
+
 .user-guide-content .kg-screenshot figcaption {
     margin-top: 8px;
     color: #495057;
