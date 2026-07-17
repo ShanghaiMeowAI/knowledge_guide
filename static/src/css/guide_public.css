@@ -632,6 +632,13 @@ a {
     background: #fff;
 }
 
+/* Keep the form evidence and hide only the shared 25px test banner. */
+.gp-article-body .kg-screenshot-set--crop-top-banner .kg-screenshot img {
+    aspect-ratio: 1280 / 695;
+    object-fit: cover;
+    object-position: bottom;
+}
+
 .gp-article-body .kg-screenshot figcaption {
     margin-top: 8px;
     color: #6b7280;
