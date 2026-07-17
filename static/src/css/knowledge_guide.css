@@ -221,6 +221,11 @@
 }
 
 /* Content Styling */
+.user-guide-content {
+    /* The guide uses a white reading card, so its text must not inherit a light backend-theme color. */
+    color: #212529;
+}
+
 .user-guide-content h1 {
     font-size: 32px;
     color: #212529;
@@ -231,14 +236,14 @@
 
 .user-guide-content h2 {
     font-size: 24px;
-    color: #495057;
+    color: inherit;
     margin-top: 30px;
     margin-bottom: 15px;
 }
 
 .user-guide-content h3 {
     font-size: 18px;
-    color: #495057;
+    color: inherit;
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -246,7 +251,7 @@
 .user-guide-content p {
     line-height: 1.7;
     margin-bottom: 15px;
-    color: #495057;
+    color: inherit;
 }
 
 .user-guide-content ul,
@@ -258,7 +263,18 @@
 .user-guide-content li {
     margin-bottom: 8px;
     line-height: 1.6;
-    color: #495057;
+    color: inherit;
+}
+
+.user-guide-content a:not(.kg-action-button) {
+    color: #714B67;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.user-guide-content a:not(.kg-action-button):hover,
+.user-guide-content a:not(.kg-action-button):focus {
+    color: #5e3f56;
 }
 
 .user-guide-content .alert {
@@ -382,7 +398,7 @@
 .user-guide-content .kg-chapter-list span {
     display: block;
     margin-top: 3px;
-    color: #6c757d;
+    color: #495057;
 }
 
 .user-guide-content .kg-meta-grid,
@@ -480,7 +496,7 @@
 
 .user-guide-content .kg-screenshot figcaption {
     margin-top: 8px;
-    color: #6c757d;
+    color: #495057;
     font-size: 13px;
 }
 
