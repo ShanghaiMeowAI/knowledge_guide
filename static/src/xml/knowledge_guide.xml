@@ -75,6 +75,16 @@
                                 </div>
                                 <div class="user-guide-section-categories"
                                      t-att-class="{ 'collapsed': !isSectionExpanded(section) }">
+                                    <t t-foreach="getSectionOverviewPages(section)" t-as="page" t-key="page.id">
+                                        <div
+                                            class="user-guide-page-item user-guide-section-overview"
+                                            t-att-class="{ 'active': isPageSelected(page) }"
+                                            t-on-click="() => this.selectPage(page)"
+                                        >
+                                            <i t-att-class="'fa ' + page.icon" style="margin-right: 8px;"/>
+                                            <span t-esc="page.name"/>
+                                        </div>
+                                    </t>
                                     <t t-foreach="getCategoriesBySection(section)" t-as="category" t-key="section + '::' + category">
                                         <div class="user-guide-category">
                                             <div class="user-guide-category-title"

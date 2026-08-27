@@ -54,6 +54,24 @@ class TestKnowledgeGuidePage(TransactionCase):
         page = self.Page.create({'name': 'No icon', 'category': 'Test'})
         self.assertEqual(page.icon, 'fa-book')
 
+    def test_archive_legacy_manual_pages_only_hides_bundled_common_guide(self):
+        legacy_page = self.Page.create({
+            'name': 'Legacy manual',
+            'section': '通用指南',
+            'category': '客户CRM',
+            'module_source': 'knowledge_guide',
+        })
+        user_page = self.Page.create({
+            'name': 'User manual',
+            'section': '通用指南',
+            'category': '客户CRM',
+        })
+
+        self.Page._archive_legacy_manual_pages()
+
+        self.assertFalse(legacy_page.active)
+        self.assertTrue(user_page.active)
+
     def test_action_view_source_returns_window_action(self):
         """action_view_source_html opens a wizard window action with the page id."""
         page = self.Page.create({

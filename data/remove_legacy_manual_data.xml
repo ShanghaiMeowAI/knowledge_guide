@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <function model="knowledge.guide.page" name="_archive_legacy_manual_pages"/>
+</odoo>

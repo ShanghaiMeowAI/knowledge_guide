@@ -37,9 +37,12 @@ class KnowledgeGuide extends Component {
         });
 
         onMounted(() => {
-            // Auto-select the first page on initial load when available
+            // 客户可指定业务总览作为入口；未配置时仍沿用目录中的第一页。
             if (this.state.pages.length > 0 && !this.state.selectedPage) {
-                this.selectPage(this.state.pages[0]);
+                const landingPage = this.state.pages.find(
+                    (page) => page.is_default_landing
+                );
+                this.selectPage(landingPage || this.state.pages[0]);
             }
         });
     }
@@ -98,7 +101,7 @@ class KnowledgeGuide extends Component {
             this.state.expandedSections = [...this.state.expandedSections, page.section];
         }
         const categoryKey = this.getCategoryKey(page?.section, page?.category);
-        if (page?.category && !this.isCategoryExpanded(categoryKey)) {
+        if (page?.category && !page.is_section_overview && !this.isCategoryExpanded(categoryKey)) {
             this.state.expandedCategories = [...this.state.expandedCategories, categoryKey];
         }
 
@@ -188,7 +191,7 @@ class KnowledgeGuide extends Component {
 
     getCategoriesBySection(section) {
         return this.state.pages
-            .filter((page) => page.section === section)
+            .filter((page) => page.section === section && !page.is_section_overview)
             .reduce((categories, page) => {
                 if (!categories.includes(page.category)) {
                     categories.push(page.category);
@@ -197,9 +200,18 @@ class KnowledgeGuide extends Component {
             }, []);
     }
 
+    getSectionOverviewPages(section) {
+        return this.state.pages.filter(
+            (page) => page.section === section && page.is_section_overview
+        );
+    }
+
     getPagesBySectionCategory(section, category) {
         return this.state.pages.filter(
-            (page) => page.section === section && page.category === category
+            (page) =>
+                page.section === section &&
+                page.category === category &&
+                !page.is_section_overview
         );
     }
 
