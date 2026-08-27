@@ -271,14 +271,14 @@
     color: inherit;
 }
 
-.user-guide-content a:not(.kg-action-button) {
+.user-guide-content a:not(.kg-action-button):not(.btn) {
     color: #714B67;
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
-.user-guide-content a:not(.kg-action-button):hover,
-.user-guide-content a:not(.kg-action-button):focus {
+.user-guide-content a:not(.kg-action-button):not(.btn):hover,
+.user-guide-content a:not(.kg-action-button):not(.btn):focus {
     color: #5e3f56;
 }
 

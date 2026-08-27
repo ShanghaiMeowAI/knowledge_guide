@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.9.1',
+    'version': '19.0.1.9.2',
     'category': 'Productivity',
     'summary': 'Searchable, publishable, and shareable knowledge guide for Odoo users.',
     'description': """
