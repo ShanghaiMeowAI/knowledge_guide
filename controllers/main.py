@@ -67,6 +67,8 @@ class KnowledgeGuideController(http.Controller):
             'name': page.name,
             'content_html': page.display_content_html or '',
             'section': page.section or '通用指南',
+            'is_section_overview': page.is_section_overview,
+            'is_default_landing': page.is_default_landing,
             'category': page.category,
             'icon': page.icon,
             'sequence': page.sequence,

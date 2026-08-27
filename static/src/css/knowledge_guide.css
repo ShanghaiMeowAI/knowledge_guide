@@ -159,6 +159,11 @@
     font-weight: 500;
 }
 
+.user-guide-section-overview {
+    padding-left: 28px;
+    font-weight: 600;
+}
+
 /* Content Area */
 .user-guide-content-area {
     flex: 1;

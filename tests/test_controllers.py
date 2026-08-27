@@ -83,6 +83,33 @@ class TestKnowledgeGuidePublicController(TransactionCase):
 
         self.assertEqual(data['section'], 'Mail foundation')
         self.assertEqual(data['category'], 'Mailbox')
+        self.assertFalse(data['is_section_overview'])
+        self.assertFalse(data['is_default_landing'])
+
+    def test_page_to_json_marks_section_overview(self):
+        page = self.Page.create({
+            'name': 'Mail overview',
+            'section': 'Mail foundation',
+            'section_sequence': 10,
+            'category': 'Getting started',
+            'is_section_overview': True,
+        })
+
+        data = self.controller._page_to_json(page)
+
+        self.assertTrue(data['is_section_overview'])
+
+    def test_page_to_json_marks_default_landing_page(self):
+        page = self.Page.create({
+            'name': 'Customer landing page',
+            'section': 'Customer guide',
+            'category': 'Overview',
+            'is_default_landing': True,
+        })
+
+        data = self.controller._page_to_json(page)
+
+        self.assertTrue(data['is_default_landing'])
 
     def test_public_navigation_groups_section_before_category(self):
         book, first_page = self._make_published_book(slug='nested-navigation')

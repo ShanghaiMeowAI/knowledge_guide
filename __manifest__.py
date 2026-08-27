@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.7.2',
+    'version': '19.0.1.9.0',
     'category': 'Productivity',
     'summary': 'Searchable, publishable, and shareable knowledge guide for Odoo users.',
     'description': """
@@ -47,6 +47,7 @@ Use Cases
         'wizard/knowledge_guide_send_wizard_views.xml',
         'wizard/knowledge_guide_view_source_wizard_views.xml',
         'data/email_templates.xml',
+        'data/remove_legacy_manual_data.xml',
     ],
     'assets': {
         'web.assets_backend': [

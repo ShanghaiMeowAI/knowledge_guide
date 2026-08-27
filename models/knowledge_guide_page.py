@@ -72,6 +72,16 @@ class KnowledgeGuidePage(models.Model):
         help='Controls the order of top-level directories.',
     )
 
+    is_section_overview = fields.Boolean(
+        string='章节总览页',
+        help='Show this page directly below its top-level directory, before categories.',
+    )
+
+    is_default_landing = fields.Boolean(
+        string='默认入口页',
+        help='Open this page first when the user enters the guide.',
+    )
+
     category = fields.Char(
         string='分类',
         required=True,
@@ -79,6 +89,17 @@ class KnowledgeGuidePage(models.Model):
         translate=True,
         help='Section / category of the page (e.g. General, Sales, Inventory).',
     )
+
+    @api.model
+    def _archive_legacy_manual_pages(self):
+        """旧版通用手册不再进入当前业务使用指南，但保留记录便于恢复。"""
+        pages = self.with_context(active_test=False).search([
+            ('module_source', '=', 'knowledge_guide'),
+            ('section', '=', '通用指南'),
+            ('active', '=', True),
+        ])
+        pages.write({'active': False})
+        return True
 
     module_source = fields.Char(
         string='来源模块',
