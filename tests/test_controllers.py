@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from werkzeug.exceptions import NotFound
 
+from odoo import Command
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.knowledge_guide.controllers.main import KnowledgeGuideController
@@ -69,6 +70,34 @@ class TestKnowledgeGuidePublicController(TransactionCase):
         self.assertEqual(data['xmlid'], '')
         self.assertEqual(data['action_links'][0]['id'], link.id)
         self.assertEqual(data['action_links'][0]['action_xmlid'], 'base.action_partner_form')
+
+    def test_backend_pages_include_groups_inherited_by_the_user(self):
+        """A manager can read guides restricted to its implied user group."""
+        vessel_user_group = self.env['res.groups'].create({
+            'name': 'Guide Vessel User',
+            'implied_ids': [Command.link(self.env.ref('base.group_user').id)],
+        })
+        vessel_manager_group = self.env['res.groups'].create({
+            'name': 'Guide Vessel Manager',
+            'implied_ids': [Command.link(vessel_user_group.id)],
+        })
+        user = self.env['res.users'].create({
+            'name': 'Guide Vessel Manager',
+            'login': 'guide-vessel-manager',
+            'group_ids': [Command.link(vessel_manager_group.id)],
+        })
+        page = self.Page.create({
+            'name': 'Vessel guide',
+            'category': 'Vessel',
+            'content_html': '<p>Vessel operations</p>',
+            'group_ids': [Command.link(vessel_user_group.id)],
+        })
+        request = SimpleNamespace(env=self.env(user=user), db=self.env.cr.dbname)
+
+        with patch('odoo.addons.knowledge_guide.controllers.main.request', request):
+            result = self.controller.get_pages()
+
+        self.assertIn(page.id, [item['id'] for item in result['pages']])
 
     def test_page_to_json_includes_top_level_directory(self):
         page = self.Page.create({

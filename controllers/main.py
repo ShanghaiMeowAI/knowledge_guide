@@ -100,7 +100,9 @@ class KnowledgeGuideController(http.Controller):
         """
         language_context = self._get_language_context(lang)
         user = request.env.user
-        user_groups = user.group_ids.ids
+        # 指南可见范围与 Odoo 菜单权限保持一致：经理组继承的业务用户组
+        # 也必须参与匹配，否则用户能进入业务菜单却看不到对应指南。
+        user_groups = user.all_group_ids.ids
         Page = request.env['knowledge.guide.page'].with_context(
             lang=language_context['current_lang']
         )
@@ -143,7 +145,7 @@ class KnowledgeGuideController(http.Controller):
         """Return a single page by ID, applying group-based access control."""
         language_context = self._get_language_context(lang)
         user = request.env.user
-        user_groups = user.group_ids.ids
+        user_groups = user.all_group_ids.ids
 
         page = request.env['knowledge.guide.page'].with_context(
             lang=language_context['current_lang']
