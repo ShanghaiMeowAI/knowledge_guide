@@ -7,21 +7,17 @@
                     <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'reference'}" t-att-aria-pressed="state.guideKind === 'reference'" t-on-click="() => this.switchGuide('reference')">基础功能参考</button>
                 </div>
         </xpath>
-        <xpath expr="//div[hasclass('user-guide-search')]" position="inside">
-            <label class="mt-2" for="guide-scope">搜索范围</label>
-            <select id="guide-scope" class="form-select" t-on-change="onScopeChange" t-model="state.searchScope"><option value="current">当前指南</option><option value="all">全部内容</option></select>
-        </xpath>
         <xpath expr="//div[hasclass('user-guide-categories')]" position="replace">
                 <nav class="user-guide-categories" aria-label="章节">
                     <p t-if="state.loading" class="p-3" role="status">正在加载目录…</p>
                     <div t-elif="state.error" class="p-3" role="alert">目录加载失败。<button class="btn btn-link" t-on-click="() => this.loadPages(state.searchTerm)">重试</button></div>
-                    <p t-elif="!state.pages.length" class="p-3">当前没有可查看的内容。请尝试其他关键词或切换搜索范围。</p>
+                    <p t-elif="!state.pages.length" class="p-3">当前没有可查看的内容。请尝试其他关键词。</p>
                     <t t-else="" t-foreach="navigationRows" t-as="node" t-key="node.key">
                         <div class="guide-nav-row" t-att-style="'padding-left:' + (8 + node.depth * 14) + 'px'">
                             <button t-if="node.children.length" class="btn btn-link guide-expand" t-att-aria-expanded="state.expandedNodes.includes(node.key)" t-att-aria-label="node.name" t-on-click="() => this.toggleNode(node.key)"><i class="fa" t-att-class="state.expandedNodes.includes(node.key) ? 'fa-chevron-down' : 'fa-chevron-right'"/></button>
                             <button class="user-guide-page-item guide-nav-label" t-att-class="{'active': node.page &amp;&amp; isPageSelected(node.page)}" t-att-aria-current="node.page &amp;&amp; isPageSelected(node.page) ? 'page' : undefined" t-on-click="() => node.page ? this.selectPage(node.page) : this.toggleNode(node.key)">
                                 <span t-esc="node.name"/>
-                                <small t-if="state.searchTerm &amp;&amp; state.searchScope === 'all'" class="d-block text-muted" t-esc="guideLabel(node.page.guide_kind)"/>
+                                <small t-if="state.searchTerm" class="d-block text-muted" t-esc="guideLabel(node.page.guide_kind)"/>
                             </button>
                         </div>
                     </t>

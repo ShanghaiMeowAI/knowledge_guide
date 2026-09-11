@@ -43,7 +43,7 @@ export class GuideReader extends KnowledgeGuide {
 
     setup() {
         super.setup();
-        Object.assign(this.state, { guideKind: "business", searchScope: "current", expandedNodes: [], contentLoading: false, contentError: false });
+        Object.assign(this.state, { guideKind: "business", expandedNodes: [], contentLoading: false, contentError: false });
         this._navigationRequest = 0;
         this._contentRequest = 0;
         onWillDestroy(() => {
@@ -69,7 +69,7 @@ export class GuideReader extends KnowledgeGuide {
         this.state.error = false;
         try {
             const result = await rpc("/knowledge_guide/get_navigation", {
-                guide_kind: searchTerm && this.state.searchScope === "all" ? "all" : this.state.guideKind,
+                guide_kind: searchTerm ? "all" : this.state.guideKind,
                 search_term: searchTerm || undefined, lang: this.state.currentLang || undefined,
             });
             if (request !== this._navigationRequest) return;
@@ -96,12 +96,6 @@ export class GuideReader extends KnowledgeGuide {
         this.state.contentError = false;
         this.state.expandedNodes = [];
         await this.loadPages();
-    }
-
-    onScopeChange(ev) {
-        this.state.searchScope = ev.target.value;
-        clearTimeout(this._searchTimeout);
-        this.loadPages(this.state.searchTerm);
     }
 
     async onLanguageChange(ev) {
@@ -132,8 +126,7 @@ export class GuideReader extends KnowledgeGuide {
             this.state.selectedPage = { ...result, content_html: markup(result.content_html || "") };
             if (result.guide_kind !== this.state.guideKind) {
                 this.state.guideKind = result.guide_kind;
-                this.state.searchTerm = "";
-                await this.loadPages();
+                await this.loadPages(this.state.searchTerm);
             }
             if (request !== this._contentRequest) return;
             const expand = (nodes, parents = []) => {
