@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="knowledge_guide.Reader" t-inherit="knowledge_guide.MainTemplate" t-inherit-mode="primary">
-        <xpath expr="//div[hasclass('user-guide-sidebar')]" position="replace">
-            <aside class="user-guide-sidebar" aria-label="指南目录">
+        <xpath expr="//div[hasclass('user-guide-search')]" position="before">
                 <div class="guide-library-switch p-3 d-grid gap-2">
                     <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'business'}" t-att-aria-pressed="state.guideKind === 'business'" t-on-click="() => this.switchGuide('business')">业务操作指南</button>
                     <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'reference'}" t-att-aria-pressed="state.guideKind === 'reference'" t-on-click="() => this.switchGuide('reference')">基础功能参考</button>
                 </div>
-                <div class="user-guide-search">
-                    <label class="visually-hidden" for="guide-search">搜索指南</label>
-                    <input id="guide-search" type="search" class="form-control" placeholder="搜索指南内容…" t-model="state.searchTerm" t-on-input="onSearchInput"/>
-                    <label class="visually-hidden" for="guide-scope">搜索范围</label>
-                    <select id="guide-scope" class="form-select mt-2" t-on-change="onScopeChange" t-model="state.searchScope"><option value="current">当前指南</option><option value="all">全部内容</option></select>
-                    <label class="visually-hidden" for="guide-language">语言</label>
-                    <select t-if="state.languages.length > 1" id="guide-language" class="form-select mt-2" t-on-change="onLanguageChange" t-att-value="state.currentLang"><option t-foreach="state.languages" t-as="language" t-key="language.code" t-att-value="language.code" t-att-selected="language.code === state.currentLang" t-esc="language.name"/></select>
-                </div>
+        </xpath>
+        <xpath expr="//div[hasclass('user-guide-search')]" position="inside">
+            <label class="mt-2" for="guide-scope">搜索范围</label>
+            <select id="guide-scope" class="form-select" t-on-change="onScopeChange" t-model="state.searchScope"><option value="current">当前指南</option><option value="all">全部内容</option></select>
+        </xpath>
+        <xpath expr="//div[hasclass('user-guide-categories')]" position="replace">
                 <nav class="user-guide-categories" aria-label="章节">
                     <p t-if="state.loading" class="p-3" role="status">正在加载目录…</p>
                     <div t-elif="state.error" class="p-3" role="alert">目录加载失败。<button class="btn btn-link" t-on-click="() => this.loadPages(state.searchTerm)">重试</button></div>
@@ -29,7 +26,6 @@
                         </div>
                     </t>
                 </nav>
-            </aside>
         </xpath>
         <xpath expr="//div[hasclass('user-guide-content-area')]" position="inside">
             <div t-if="state.contentLoading" class="p-4" role="status">正在加载正文…</div>
