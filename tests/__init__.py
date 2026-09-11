@@ -2,4 +2,3 @@
 from . import test_models
 from . import test_controllers
 from . import test_wizards
-from . import test_reader

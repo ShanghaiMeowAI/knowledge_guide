@@ -39,8 +39,6 @@
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="guide_kind"/>
-                            <field name="parent_id" domain="[('guide_kind', '=', guide_kind), ('id', '!=', id)]"/>
                             <field name="section"/>
                             <field name="category"/>
                             <field name="icon"/>
@@ -75,9 +73,6 @@
                         </p>
                     </group>
                     <separator string="自定义内容"/>
-                    <group string="关联阅读">
-                        <field name="related_page_ids" widget="many2many_tags"/>
-                    </group>
                     <field name="custom_content_html" nolabel="1" options="{'codeview': true}"/>
                     <div invisible="not module_source">
                         <separator string="模块原始内容"/>

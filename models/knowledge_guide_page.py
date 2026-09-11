@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 
 
 class KnowledgeGuidePage(models.Model):
@@ -17,32 +16,6 @@ class KnowledgeGuidePage(models.Model):
     _name = 'knowledge.guide.page'
     _description = 'Knowledge Guide Page'
     _order = 'section_sequence, section, sequence, category, name'
-
-    guide_kind = fields.Selection(
-        [('business', '业务操作指南'), ('reference', '基础功能参考')],
-        default='business', required=True, index=True,
-    )
-    parent_id = fields.Many2one('knowledge.guide.page', string='上级页面', index=True, ondelete='set null')
-    related_page_ids = fields.Many2many(
-        'knowledge.guide.page', 'knowledge_guide_related_rel', 'page_id', 'related_id',
-        string='关联阅读',
-    )
-
-    @api.constrains('parent_id', 'guide_kind')
-    def _check_guide_parent(self):
-        # 父子页面属于同一类指南，防止业务目录被基础参考内容混入。
-        if self._has_cycle():
-            raise ValidationError(_('指南目录不能循环引用。'))
-        for page in self:
-            if page.parent_id and page.parent_id.guide_kind != page.guide_kind:
-                raise ValidationError(_('上级页面必须属于同一类指南。'))
-            if self.search_count([('parent_id', '=', page.id), ('guide_kind', '!=', page.guide_kind)]):
-                raise ValidationError(_('请先调整子页面的指南分类。'))
-
-    @api.model
-    def _guide_visible_domain(self):
-        return [('active', '=', True), '|', ('group_ids', '=', False),
-                ('group_ids', 'in', self.env.user.group_ids.ids)]
 
     name = fields.Char(
         string='标题',

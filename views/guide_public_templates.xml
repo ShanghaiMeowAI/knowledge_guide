@@ -197,11 +197,10 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 document.querySelectorAll('a[href^="#guide:"]').forEach(function (link) {
-                    var parts = link.getAttribute('href').slice('#guide:'.length).split('#');
-                    var xmlid = parts.shift();
+                    var xmlid = link.getAttribute('href').slice('#guide:'.length);
                     var target = document.querySelector('[data-guide-page-xmlid="' + xmlid + '"]');
                     if (target) {
-                        link.setAttribute('href', target.getAttribute('href') + (parts.length ? '#' + parts.join('#') : ''));
+                        link.setAttribute('href', target.getAttribute('href'));
                     }
                 });
             });
