@@ -11,6 +11,17 @@ test("a section overview is a single clickable expandable heading", () => {
     expect(roots[0].children[0].page.id).toBe(2);
 });
 
+test("reference navigation starts with the overview children", () => {
+    const roots = navigationTree([
+        page(1, {name: "Reference", section: "Reference", guide_kind: "reference", is_section_overview: true}),
+        page(2, {parent_id: 1, guide_kind: "reference"}),
+        page(3, {parent_id: 1, guide_kind: "reference"}),
+        page(4, {parent_id: 2, guide_kind: "reference"}),
+    ]);
+    expect(roots.map(node => node.page.id)).toEqual([2, 3]);
+    expect(roots[0].children[0].page.id).toBe(4);
+});
+
 test("nested pages preserve source order and do not become duplicate roots", () => {
     const roots = navigationTree([page(1), page(2, { parent_id: 1 }), page(3, { parent_id: 2 })]);
     const parent = roots[0].children[0].children[0];
