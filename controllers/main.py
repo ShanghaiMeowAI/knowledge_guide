@@ -174,7 +174,10 @@ class KnowledgeGuideController(http.Controller):
             domain += ['|', '|', ('name', 'ilike', search_term),
                        ('content_html', 'ilike', search_term), ('custom_content_html', 'ilike', search_term)]
         # 即使搜索全部内容，业务指南也排在基础参考之前；目录响应不加载正文。
-        pages = Page.search(domain, order='guide_kind, section_sequence, section, sequence, category, name')
+        pages = Page.search_fetch(domain, [
+            'name', 'guide_kind', 'section', 'category', 'sequence', 'icon',
+            'parent_id', 'is_default_landing', 'is_section_overview',
+        ], order='guide_kind, section_sequence, section, sequence, category, name')
         xmlids = pages.get_external_id()
         return {
             **language,
