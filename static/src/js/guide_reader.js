@@ -34,7 +34,10 @@ export function navigationTree(pages) {
             groups.get(key).children.push(node);
         }
     }
-    return roots;
+    // 章节首页与分组同名时，首页本身承担展开入口，避免连续显示两个相同标题。
+    return roots.map(section => section.children.length === 1
+        && section.children[0].page?.is_section_overview
+        && section.children[0].name === section.name ? section.children[0] : section);
 }
 
 // 复用原阅读器的业务动作、正文链接和高亮能力，只替换目录及正文加载流程。
