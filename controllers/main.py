@@ -63,6 +63,12 @@ class KnowledgeGuideController(http.Controller):
         xmlid = page.get_external_id().get(page.id, '')
         return {
             'id': page.id,
+            'guide_kind': page.guide_kind,
+            'parent_id': page.parent_id.id,
+            'related_pages': [
+                {'id': related.id, 'name': related.name, 'guide_kind': related.guide_kind}
+                for related in page.related_page_ids.filtered_domain(page._guide_visible_domain())
+            ],
             'xmlid': xmlid,
             'name': page.name,
             'content_html': page.display_content_html or '',
@@ -99,18 +105,11 @@ class KnowledgeGuideController(http.Controller):
             }
         """
         language_context = self._get_language_context(lang)
-        user = request.env.user
-        user_groups = user.group_ids.ids
         Page = request.env['knowledge.guide.page'].with_context(
             lang=language_context['current_lang']
         )
 
-        domain = [
-            ('active', '=', True),
-            '|',
-            ('group_ids', '=', False),
-            ('group_ids', 'in', user_groups)
-        ]
+        domain = Page._guide_visible_domain()
 
         if search_term:
             domain += [
@@ -139,15 +138,21 @@ class KnowledgeGuideController(http.Controller):
         }
 
     @http.route('/knowledge_guide/get_page', type='jsonrpc', auth='user')
-    def get_page(self, page_id, lang=None):
+    def get_page(self, page_id=None, lang=None, xmlid=None):
         """Return a single page by ID, applying group-based access control."""
         language_context = self._get_language_context(lang)
         user = request.env.user
         user_groups = user.group_ids.ids
 
-        page = request.env['knowledge.guide.page'].with_context(
+        Page = request.env['knowledge.guide.page'].with_context(
             lang=language_context['current_lang']
-        ).browse(page_id)
+        )
+        if xmlid:
+            target = request.env.ref(xmlid, raise_if_not_found=False)
+            if not target or target._name != Page._name:
+                return False
+            page_id = target.id
+        page = Page.search(Page._guide_visible_domain() + [('id', '=', page_id)], limit=1)
 
         if not page.exists() or not page.active:
             return False
@@ -156,6 +161,31 @@ class KnowledgeGuideController(http.Controller):
             return False
 
         return self._page_to_json(page)
+
+    @http.route('/knowledge_guide/get_navigation', type='jsonrpc', auth='user')
+    def get_navigation(self, guide_kind='business', search_term=None, lang=None):
+        """Lightweight reader endpoint; the legacy get_pages contract stays available."""
+        language = self._get_language_context(lang)
+        Page = request.env['knowledge.guide.page'].with_context(lang=language['current_lang'])
+        domain = Page._guide_visible_domain()
+        if guide_kind != 'all':
+            domain += [('guide_kind', '=', guide_kind if guide_kind in ('business', 'reference') else 'business')]
+        if search_term:
+            domain += ['|', '|', ('name', 'ilike', search_term),
+                       ('content_html', 'ilike', search_term), ('custom_content_html', 'ilike', search_term)]
+        # 即使搜索全部内容，业务指南也排在基础参考之前；目录响应不加载正文。
+        pages = Page.search(domain, order='guide_kind, section_sequence, section, sequence, category, name')
+        xmlids = pages.get_external_id()
+        return {
+            **language,
+            'pages': [{
+                'id': page.id, 'xmlid': xmlids.get(page.id, ''), 'name': page.name,
+                'guide_kind': page.guide_kind, 'parent_id': page.parent_id.id,
+                'section': page.section, 'category': page.category, 'sequence': page.sequence,
+                'icon': page.icon, 'is_default_landing': page.is_default_landing,
+                'is_section_overview': page.is_section_overview,
+            } for page in pages],
+        }
 
     # ==================================================================
     # Public routes (HTTP, auth='public')

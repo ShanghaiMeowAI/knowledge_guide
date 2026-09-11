@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Knowledge Guide',
-    'version': '19.0.1.9.2',
+    'version': '19.0.1.10.0',
     'category': 'Productivity',
     'summary': 'Searchable, publishable, and shareable knowledge guide for Odoo users.',
     'description': """
@@ -50,10 +50,14 @@ Use Cases
         'data/remove_legacy_manual_data.xml',
     ],
     'assets': {
+        'web.assets_unit_tests': ['knowledge_guide/static/tests/guide_reader.test.js'],
         'web.assets_backend': [
             'knowledge_guide/static/src/css/knowledge_guide.css',
             'knowledge_guide/static/src/js/knowledge_guide.js',
             'knowledge_guide/static/src/xml/knowledge_guide.xml',
+            'knowledge_guide/static/src/js/guide_reader.js',
+            'knowledge_guide/static/src/xml/guide_reader.xml',
+            'knowledge_guide/static/src/css/guide_reader.css',
         ],
     },
     'images': [

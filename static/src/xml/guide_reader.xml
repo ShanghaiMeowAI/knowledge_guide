@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="knowledge_guide.Reader" t-inherit="knowledge_guide.MainTemplate" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('user-guide-sidebar')]" position="replace">
+            <aside class="user-guide-sidebar" aria-label="指南目录">
+                <div class="guide-library-switch p-3 d-grid gap-2">
+                    <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'business'}" t-att-aria-pressed="state.guideKind === 'business'" t-on-click="() => this.switchGuide('business')">业务操作指南</button>
+                    <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'reference'}" t-att-aria-pressed="state.guideKind === 'reference'" t-on-click="() => this.switchGuide('reference')">基础功能参考</button>
+                </div>
+                <div class="user-guide-search">
+                    <label class="visually-hidden" for="guide-search">搜索指南</label>
+                    <input id="guide-search" type="search" class="form-control" placeholder="搜索指南内容…" t-model="state.searchTerm" t-on-input="onSearchInput"/>
+                    <label class="visually-hidden" for="guide-scope">搜索范围</label>
+                    <select id="guide-scope" class="form-select mt-2" t-on-change="onScopeChange" t-model="state.searchScope"><option value="current">当前指南</option><option value="all">全部内容</option></select>
+                    <label class="visually-hidden" for="guide-language">语言</label>
+                    <select t-if="state.languages.length > 1" id="guide-language" class="form-select mt-2" t-on-change="onLanguageChange" t-att-value="state.currentLang"><option t-foreach="state.languages" t-as="language" t-key="language.code" t-att-value="language.code" t-att-selected="language.code === state.currentLang" t-esc="language.name"/></select>
+                </div>
+                <nav class="user-guide-categories" aria-label="章节">
+                    <p t-if="state.loading" class="p-3" role="status">正在加载目录…</p>
+                    <div t-elif="state.error" class="p-3" role="alert">目录加载失败。<button class="btn btn-link" t-on-click="() => this.loadPages(state.searchTerm)">重试</button></div>
+                    <p t-elif="!state.pages.length" class="p-3">当前没有可查看的内容。请尝试其他关键词或切换搜索范围。</p>
+                    <t t-else="" t-foreach="navigationRows" t-as="node" t-key="node.key">
+                        <div class="guide-nav-row" t-att-style="'padding-left:' + (8 + node.depth * 14) + 'px'">
+                            <button t-if="node.children.length" class="btn btn-link guide-expand" t-att-aria-expanded="state.expandedNodes.includes(node.key)" t-att-aria-label="node.name" t-on-click="() => this.toggleNode(node.key)"><i class="fa" t-att-class="state.expandedNodes.includes(node.key) ? 'fa-chevron-down' : 'fa-chevron-right'"/></button>
+                            <button class="user-guide-page-item guide-nav-label" t-att-class="{'active': node.page &amp;&amp; isPageSelected(node.page)}" t-att-aria-current="node.page &amp;&amp; isPageSelected(node.page) ? 'page' : undefined" t-on-click="() => node.page ? this.selectPage(node.page) : this.toggleNode(node.key)">
+                                <span t-esc="node.name"/>
+                                <small t-if="state.searchTerm &amp;&amp; state.searchScope === 'all'" class="d-block text-muted" t-esc="guideLabel(node.page.guide_kind)"/>
+                            </button>
+                        </div>
+                    </t>
+                </nav>
+            </aside>
+        </xpath>
+        <xpath expr="//div[hasclass('user-guide-content-area')]" position="inside">
+            <div t-if="state.contentLoading" class="p-4" role="status">正在加载正文…</div>
+            <div t-if="state.contentError" class="p-4" role="alert">页面不存在、无权访问或加载失败。<button class="btn btn-link" t-on-click="() => this.selectPage(this._failedPage)">重试</button></div>
+        </xpath>
+        <xpath expr="//div[hasclass('user-guide-content-wrapper')]" position="inside">
+            <section t-if="state.selectedPage.related_pages.length" class="guide-related mt-4 pt-3 border-top" aria-label="关联阅读">
+                <h3>关联阅读</h3>
+                <button t-foreach="state.selectedPage.related_pages" t-as="related" t-key="related.id" class="btn btn-link d-block" t-on-click="() => this.selectPage(related)"><t t-esc="related.name"/> · <t t-esc="guideLabel(related.guide_kind)"/></button>
+            </section>
+        </xpath>
+        <xpath expr="//div[hasclass('user-guide-empty-state')]" position="attributes"><attribute name="t-if">!state.contentLoading &amp;&amp; !state.contentError</attribute></xpath>
+    </t>
+</templates>
