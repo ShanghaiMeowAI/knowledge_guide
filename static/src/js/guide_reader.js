@@ -52,6 +52,10 @@ export class GuideReader extends KnowledgeGuide {
             this._contentRequest++;
         });
         onPatched(() => {
+            if (this._pendingHighlight && !this.state.contentLoading) {
+                this.highlightSearchTerm(this._pendingHighlight);
+                this._pendingHighlight = null;
+            }
             if (this._pendingAnchor && !this.state.contentLoading) {
                 this.scrollToContentAnchor(this._pendingAnchor);
                 this._pendingAnchor = null;
@@ -117,6 +121,7 @@ export class GuideReader extends KnowledgeGuide {
         this.state.contentLoading = true;
         this.state.contentError = false;
         this._pendingAnchor = null;
+        this._pendingHighlight = null;
         this.state.selectedPage = null;
         try {
             const result = await rpc("/knowledge_guide/get_page", {
@@ -139,6 +144,7 @@ export class GuideReader extends KnowledgeGuide {
             };
             expand(navigationTree(this.state.pages));
             this._pendingAnchor = anchor;
+            this._pendingHighlight = this.state.searchTerm;
             this.scrollContentToTop();
         } catch {
             if (request === this._contentRequest) {
