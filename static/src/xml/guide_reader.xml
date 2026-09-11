@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="knowledge_guide.Reader" t-inherit="knowledge_guide.MainTemplate" t-inherit-mode="primary">
-        <xpath expr="//div[hasclass('user-guide-search')]" position="before">
-                <div class="guide-library-switch p-3 d-grid gap-2">
-                    <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'business'}" t-att-aria-pressed="state.guideKind === 'business'" t-on-click="() => this.switchGuide('business')">业务操作指南</button>
-                    <button class="btn text-start" t-att-class="{'btn-primary': state.guideKind === 'reference'}" t-att-aria-pressed="state.guideKind === 'reference'" t-on-click="() => this.switchGuide('reference')">基础功能参考</button>
-                </div>
-        </xpath>
         <xpath expr="//div[hasclass('user-guide-categories')]" position="replace">
                 <nav class="user-guide-categories" aria-label="章节">
                     <p t-if="state.loading" class="p-3" role="status">正在加载目录…</p>
