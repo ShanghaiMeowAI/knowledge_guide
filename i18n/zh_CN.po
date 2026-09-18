@@ -1135,3 +1135,56 @@ msgstr "我的指导"
 #: model_terms:ir.ui.view,arch_db:knowledge_guide.guide_book_public
 msgid "— Powered by <strong>Knowledge Guide</strong>"
 msgstr "- 电源: <strong>知识指南</strong>"
+
+#. module: knowledge_guide
+#: model_terms:ir.ui.view,arch_db:knowledge_guide.guide_book_public
+msgid "<span>/</span>"
+msgstr "<span>/</span>"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__section_sequence
+msgid "Controls the order of top-level directories."
+msgstr "控制一级目录的显示顺序。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__is_default_landing
+msgid "Default Landing Page"
+msgstr "默认入口页"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__is_default_landing
+msgid "Open this page first when the user enters the guide."
+msgstr "用户进入指南时首先打开此页面。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__is_section_overview
+msgid "Section Overview Page"
+msgstr "章节总览页"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__is_section_overview
+msgid ""
+"Show this page directly below its top-level directory, before categories."
+msgstr "在一级目录下、分类之前直接显示此页面。"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__section
+#: model_terms:ir.ui.view,arch_db:knowledge_guide.view_knowledge_guide_page_search
+msgid "Top-level Directory"
+msgstr "一级目录"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__section_sequence
+msgid "Top-level Directory Sequence"
+msgstr "一级目录排序"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__section
+msgid "Top-level directory used to separate products or business domains."
+msgstr "用于区分产品或业务领域的一级目录。"
+
+#. module: knowledge_guide
+#. odoo-javascript
+#: code:addons/knowledge_guide/static/src/js/knowledge_guide.js:0
+msgid "General Guide"
+msgstr "通用指南"

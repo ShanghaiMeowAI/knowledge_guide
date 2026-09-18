@@ -95,7 +95,7 @@ class KnowledgeGuidePage(models.Model):
         """Archive the legacy general guide while keeping it recoverable."""
         pages = self.with_context(active_test=False).search([
             ('module_source', '=', 'knowledge_guide'),
-            ('section', 'in', ['General Guide', '通用指南']),
+            ('section', 'in', ['General Guide', '\u901a\u7528\u6307\u5357']),
             ('active', '=', True),
         ])
         pages.write({'active': False})

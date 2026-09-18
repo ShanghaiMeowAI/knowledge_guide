@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 04:54+0000\n"
-"PO-Revision-Date: 2026-09-18 04:54+0000\n"
+"POT-Creation-Date: 2026-09-18 05:35+0000\n"
+"PO-Revision-Date: 2026-09-18 05:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -75,6 +75,11 @@ msgstr ""
 #. module: knowledge_guide
 #: model_terms:ir.ui.view,arch_db:knowledge_guide.guide_book_public
 msgid "<span class=\"gp-pagination-label\">Next page</span>"
+msgstr ""
+
+#. module: knowledge_guide
+#: model_terms:ir.ui.view,arch_db:knowledge_guide.guide_book_public
+msgid "<span>/</span>"
 msgstr ""
 
 #. module: knowledge_guide
@@ -244,6 +249,11 @@ msgid ""
 msgstr ""
 
 #. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__section_sequence
+msgid "Controls the order of top-level directories."
+msgstr ""
+
+#. module: knowledge_guide
 #: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__has_blocked
 msgid ""
 "Controls whether has blocked is enabled for the knowledge guide wizard "
@@ -322,6 +332,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__custom_content_html
 #: model_terms:ir.ui.view,arch_db:knowledge_guide.view_knowledge_guide_page_form
 msgid "Custom Content"
+msgstr ""
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__is_default_landing
+msgid "Default Landing Page"
 msgstr ""
 
 #. module: knowledge_guide
@@ -681,6 +696,11 @@ msgid "Open Public URL"
 msgstr ""
 
 #. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__is_default_landing
+msgid "Open this page first when the user enters the guide."
+msgstr ""
+
+#. module: knowledge_guide
 #: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__content_html
 msgid "Original Content"
 msgstr ""
@@ -785,6 +805,11 @@ msgid "Section / category of the page (e.g. General, Sales, Inventory)."
 msgstr ""
 
 #. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__is_section_overview
+msgid "Section Overview Page"
+msgstr ""
+
+#. module: knowledge_guide
 #. odoo-javascript
 #: code:addons/knowledge_guide/static/src/xml/knowledge_guide.xml:0
 msgid "Select a section from the left to start reading."
@@ -842,6 +867,12 @@ msgstr ""
 #. module: knowledge_guide
 #: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book__tracked_url
 msgid "Shortened tracked URL or public URL if no tracker is configured."
+msgstr ""
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__is_section_overview
+msgid ""
+"Show this page directly below its top-level directory, before categories."
 msgstr ""
 
 #. module: knowledge_guide
@@ -1000,6 +1031,22 @@ msgid "Title of the section displayed in the guide."
 msgstr ""
 
 #. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__section
+#: model_terms:ir.ui.view,arch_db:knowledge_guide.view_knowledge_guide_page_search
+msgid "Top-level Directory"
+msgstr ""
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__section_sequence
+msgid "Top-level Directory Sequence"
+msgstr ""
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__section
+msgid "Top-level directory used to separate products or business domains."
+msgstr ""
+
+#. module: knowledge_guide
 #: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__link_tracker_id
 msgid "Tracked Link"
 msgstr ""
@@ -1093,4 +1140,10 @@ msgstr ""
 #. module: knowledge_guide
 #: model_terms:ir.ui.view,arch_db:knowledge_guide.guide_book_public
 msgid "— Powered by <strong>Knowledge Guide</strong>"
+msgstr ""
+
+#. module: knowledge_guide
+#. odoo-javascript
+#: code:addons/knowledge_guide/static/src/js/knowledge_guide.js:0
+msgid "General Guide"
 msgstr ""
