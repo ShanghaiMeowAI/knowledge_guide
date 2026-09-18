@@ -5,11 +5,11 @@
         <field name="name">knowledge.guide.page.list</field>
         <field name="model">knowledge.guide.page</field>
         <field name="arch" type="xml">
-            <list string="指南页面">
+            <list string="Guide Pages">
                 <header>
                     <button name="%(knowledge_guide.knowledge_guide_book_create_wizard_action)d"
                             type="action"
-                            string="按所选页面创建合集"
+                            string="Create Collection from Selected Pages"
                             display="always"
                             class="btn-primary"
                             icon="fa-book"/>
@@ -31,10 +31,10 @@
         <field name="name">knowledge.guide.page.form</field>
         <field name="model">knowledge.guide.page</field>
         <field name="arch" type="xml">
-            <form string="指南页面">
+            <form string="Guide Pages">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <widget name="web_ribbon" title="已归档" bg_color="text-bg-danger" invisible="active"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     </div>
                     <group>
                         <group>
@@ -53,13 +53,13 @@
                             <field name="active"/>
                         </group>
                     </group>
-                    <group string="可见用户组">
+                    <group string="Visible Groups">
                         <field name="group_ids" widget="many2many_tags" nolabel="1"/>
                         <p class="text-muted" colspan="2">
-                            不选择用户组时，所有内部用户都可以看到这个页面。
+                            If no user group is selected, all internal users can view this page.
                         </p>
                     </group>
-                    <group string="Odoo 跳转按钮">
+                    <group string="Odoo Navigation Button">
                         <field name="action_link_ids" nolabel="1">
                             <list editable="bottom">
                                 <field name="sequence" widget="handle"/>
@@ -69,20 +69,20 @@
                             </list>
                         </field>
                         <p class="text-muted" colspan="2">
-                            这些按钮只在 Odoo 后台使用指南中显示，用于打开对应的业务页面。
+                            These buttons appear only in the internal Odoo guide and open the related business views.
                         </p>
                     </group>
-                    <separator string="自定义内容"/>
+                    <separator string="Custom Content"/>
                     <field name="custom_content_html" nolabel="1" options="{'codeview': true}"/>
                     <div invisible="not module_source">
-                        <separator string="模块原始内容"/>
+                        <separator string="Original Module Content"/>
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="text-muted">
-                                这段内容来自模块 <field name="module_source" class="fw-bold d-inline" readonly="1"/>，建议不要直接改原始内容。
-                                如需调整展示文本，请使用上方“自定义内容”。
+                                This content comes from module <field name="module_source" class="fw-bold d-inline" readonly="1"/>. Avoid editing the original content directly.
+                                To customize the displayed text, use Custom Content above.
                             </span>
                             <button name="action_view_source_html" type="object"
-                                    string="查看 HTML 源码" class="btn btn-sm btn-secondary ms-2"
+                                    string="View HTML Source" class="btn btn-sm btn-secondary ms-2"
                                     icon="fa-code"/>
                         </div>
                         <field name="content_html" nolabel="1" readonly="1"/>
@@ -97,19 +97,19 @@
         <field name="name">knowledge.guide.page.search</field>
         <field name="model">knowledge.guide.page</field>
         <field name="arch" type="xml">
-            <search string="搜索指南页面">
+            <search string="Search Guide Pages">
                 <field name="name"/>
                 <field name="section"/>
                 <field name="category"/>
                 <field name="module_source"/>
                 <field name="book_id"/>
-                <filter name="active" string="启用" domain="[('active', '=', True)]"/>
-                <filter name="archived" string="已归档" domain="[('active', '=', False)]"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
                 <group>
-                    <filter name="group_by_section" string="一级目录" context="{'group_by': 'section'}"/>
-                    <filter name="group_by_category" string="分类" context="{'group_by': 'category'}"/>
-                    <filter name="group_by_book" string="合集" context="{'group_by': 'book_id'}"/>
-                    <filter name="group_by_module" string="来源模块" context="{'group_by': 'module_source'}"/>
+                    <filter name="group_by_section" string="Top-level Directory" context="{'group_by': 'section'}"/>
+                    <filter name="group_by_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_by_book" string="Collection" context="{'group_by': 'book_id'}"/>
+                    <filter name="group_by_module" string="Source Module" context="{'group_by': 'module_source'}"/>
                 </group>
             </search>
         </field>
@@ -117,16 +117,16 @@
 
     <!-- Action -->
     <record id="action_knowledge_guide_page" model="ir.actions.act_window">
-        <field name="name">指南页面</field>
+        <field name="name">Guide Pages</field>
         <field name="res_model">knowledge.guide.page</field>
         <field name="view_mode">list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                创建一个新的指南页面
+                Create a new guide page
             </p>
             <p>
-                指南页面可以按分类展示，也可以限制给指定用户组查看。
+                Guide pages can be organized by category and restricted to selected user groups.
             </p>
         </field>
     </record>

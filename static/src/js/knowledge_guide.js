@@ -37,7 +37,7 @@ class KnowledgeGuide extends Component {
         });
 
         onMounted(() => {
-            // 客户可指定业务总览作为入口；未配置时仍沿用目录中的第一页。
+            // Use the configured business overview as the landing page, or fall back to the first page.
             if (this.state.pages.length > 0 && !this.state.selectedPage) {
                 const landingPage = this.state.pages.find(
                     (page) => page.is_default_landing
@@ -62,7 +62,7 @@ class KnowledgeGuide extends Component {
             this.state.languages = result.languages || [];
             this.state.pages = result.pages.map((p) => ({
                 ...p,
-                section: p.section || _t("通用指南"),
+                section: p.section || _t("General Guide"),
                 action_links: p.action_links || [],
                 content_html: markup(p.content_html || ""),
             }));
