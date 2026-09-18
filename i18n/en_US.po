@@ -1,0 +1,383 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-18 00:00+0000\n"
+"PO-Revision-Date: 2026-09-18 00:00+0000\n"
+"Last-Translator: Winston Localization Team\n"
+"Language-Team: en_US\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: knowledge_guide
+#: model:mail.template,body_html:knowledge_guide.email_template_send_guide
+msgid ""
+"<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333333; line-height: 1.6; max-width: 640px; margin: 0 auto;\">\n"
+"    <p>您好，</p>\n"
+"\n"
+"    <p>以下是知识库指南链接，请在浏览器中打开查看。</p>\n"
+"\n"
+"    <p><strong>指南名称：</strong><t t-out=\"object.name\"/></p>\n"
+"\n"
+"    <p><strong>访问链接：</strong><br/>\n"
+"    <a t-att-href=\"object.tracked_url or object.public_url\" style=\"color: #714B67; text-decoration: none;\">\n"
+"        <t t-out=\"object.tracked_url or object.public_url\"/>\n"
+"    </a></p>\n"
+"\n"
+"    <p>本指南包含 <t t-out=\"object.page_count\"/> 个页面，可用于了解系统操作流程和业务说明。</p>\n"
+"\n"
+"    <p>该链接可直接访问，无需登录。请根据实际项目范围控制转发对象。</p>\n"
+"\n"
+"    <p>谢谢。<br/>\n"
+"    <t t-out=\"object.env.company.name\"/></p>\n"
+"\n"
+"    <hr style=\"border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;\"/>\n"
+"\n"
+"    <p style=\"font-size: 12px; color: #666666;\">\n"
+"        这封邮件由 <t t-out=\"object.env.company.name\"/> 通过 Odoo 发送。\n"
+"    </p>\n"
+"</div>\n"
+"        "
+msgstr ""
+"<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333333; line-height: 1.6; max-width: 640px; margin: 0 auto;\">\n"
+"    <p>Hello.</p>\n"
+"\n"
+"    <p>Below is a link to the knowledge base guide, which can be viewed in the browser.</p>\n"
+"\n"
+"    <p><strong>Name of guide:</strong><t t-out=\"object.name\"/></p>\n"
+"\n"
+"    <p><strong>Access to links:</strong><br/>\n"
+"    <a t-att-href=\"object.tracked_url or object.public_url\" style=\"color: #714B67; text-decoration: none;\">\n"
+"        <t t-out=\"object.tracked_url or object.public_url\"/>\n"
+"    </a></p>\n"
+"\n"
+"    <p>This Guide contains <t t-out=\"object.page_count\"/> A page that provides insight into the system ' s operating processes and instructions.</p>\n"
+"\n"
+"    <p>The link is directly accessible and does not require login. Please control the forwarding of objects according to the actual project scope.</p>\n"
+"\n"
+"    <p>Thank you.<br/>\n"
+"    <t t-out=\"object.env.company.name\"/></p>\n"
+"\n"
+"    <hr style=\"border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;\"/>\n"
+"\n"
+"    <p style=\"font-size: 12px; color: #666666;\">\n"
+"        This email is by <t t-out=\"object.env.company.name\"/> Send by Odoo.\n"
+"    </p>\n"
+"</div>\n"
+"        "
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_view_source_wizard__source_code
+msgid "HTML 源码"
+msgstr "HTML Source"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__blocked_page_ids
+msgid "Links the 已属于其他合集的页面 record(s) used by this operation wizard."
+msgstr "Links the page(s) used by this operation Wizard."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__page_id
+msgid "Links the 指南页面 record(s) used to organize and deliver guide content."
+msgstr "Links the guide(s) used to guide and guide contact."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__page_ids
+msgid "Links the 要加入的页面 record(s) used by this operation wizard."
+msgstr "Links the page(s) used by this operation wizard."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__action_link_ids
+msgid "Odoo 跳转按钮"
+msgstr "Odoo Jump button"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_view_source_wizard__source_code
+msgid "Stores the HTML 源码 content shown or processed in the the knowledge guide wizard workflow."
+msgstr "Stops the HTML source code or contributed in the knowledge panel working."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_book_create_wizard__name
+msgid "Stores the 合集名称 value used for the knowledge guide wizard processing."
+msgstr "Stores the combination used for the knowledge framework Wizad proceeding."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__display_content_html
+msgid "Stores the 展示内容 content shown or processed in the the knowledge guide guide workflow."
+msgstr "Stops the presentation or presented in the knowledge framework framework work."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_action_link__name
+msgid "Stores the 按钮文字 value used for the knowledge guide guide processing."
+msgstr "Stores the value used for the knowledge framework guiding."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__slug
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book_create_wizard__slug
+msgid "URL 标识"
+msgstr "URL Identification"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_send_wizard__subject
+msgid "主题"
+msgstr "Theme"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/wizard/knowledge_guide_book_create_wizard.py:0
+msgid ""
+"以下页面已经属于其他指南合集，不能重复加入：\n"
+"%(details)s\n"
+"\n"
+"请先从原合集移除这些页面，或取消选择这些页面。"
+msgstr ""
+"The following pages, which belong to another collection of guides, cannot be added:\n"
+"%(details)s\n"
+"\n"
+"Please remove these pages from the original set or cancel the selection."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__public_url
+msgid "公开链接"
+msgstr "Open Link"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__category
+msgid "分类"
+msgstr "Classification"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_action_link__action_xmlid
+msgid "动作 XMLID"
+msgstr "Actions XML"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__content_html
+msgid "原始内容"
+msgstr "Original content"
+
+#. module: knowledge_guide
+#: model:mail.template,name:knowledge_guide.email_template_send_guide
+msgid "发送知识库指南"
+msgstr "Send knowledge base guide"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__group_ids
+msgid "可见用户组"
+msgstr "Visible User Group"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book_create_wizard__name
+msgid "合集名称"
+msgstr "Organisation"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__name
+msgid "名称"
+msgstr "Name"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__active
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__active
+msgid "启用"
+msgstr "Enable"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_action_link__icon
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__icon
+msgid "图标"
+msgstr "Icon"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__display_content_html
+msgid "展示内容"
+msgstr "Presentation"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__is_published
+msgid "已发布"
+msgstr "Published"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book_create_wizard__blocked_page_ids
+msgid "已属于其他合集的页面"
+msgstr "Other Organiser"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "建议先在“发布与分享”页签生成跟踪链接，再通过邮件发送指南。"
+msgstr ""
+"It is suggested that a tracking link be created on the “publication and sharing” page before sending a guide via mail."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "当前指南还没有创建跟踪链接。"
+msgstr "The current guide does not create a tracking link."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+#: code:addons/knowledge_guide/wizard/knowledge_guide_send_wizard.py:0
+msgid "成功"
+msgstr "Success"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_send_wizard__book_id
+msgid "指南"
+msgstr "Guide"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "指南发布后才能通过邮件发送。"
+msgstr "The guide will not be sent by mail until it has been published."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/wizard/knowledge_guide_book_create_wizard.py:0
+#: model:ir.actions.act_window,name:knowledge_guide.action_knowledge_guide_book
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__book_id
+msgid "指南合集"
+msgstr "A collection of guides"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/wizard/knowledge_guide_send_wizard.py:0
+msgid "指南已发送给 %s 个收件人。"
+msgstr "Guide sent %s A recipient."
+
+#. module: knowledge_guide
+#: model:ir.actions.act_window,name:knowledge_guide.action_knowledge_guide_page
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_action_link__page_id
+msgid "指南页面"
+msgstr "Guide Page"
+
+#. module: knowledge_guide
+#: model:ir.actions.act_window,name:knowledge_guide.knowledge_guide_book_create_wizard_action
+msgid "按所选页面创建合集"
+msgstr "Create a collection by selected page"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_action_link__name
+msgid "按钮文字"
+msgstr "Button Text"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__sequence
+msgid "排序"
+msgstr "Sort"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "提示"
+msgstr "Hint"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_send_wizard__partner_ids
+msgid "收件人"
+msgstr "Recipient"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "无法创建跟踪链接：当前指南还没有公开 URL。"
+msgstr "Could not close temporary folder: "
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__module_source
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__module_source
+msgid "来源模块"
+msgstr "Source Module"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__name
+msgid "标题"
+msgstr "Title"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_send_wizard__body
+msgid "正文"
+msgstr "Text"
+
+#. module: knowledge_guide
+#: model:mail.template,subject:knowledge_guide.email_template_send_guide
+msgid "知识库指南 - {{ object.name }}"
+msgstr "Knowledge base guide - {{ object.name }}"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__description_html
+msgid "简介"
+msgstr "Introduction"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__custom_content_html
+msgid "自定义内容"
+msgstr "Custom content"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book_create_wizard__page_ids
+msgid "要加入的页面"
+msgstr "Page to add"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__access_token
+msgid "访问 Token"
+msgstr "Access Token"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__click_count
+msgid "访问次数"
+msgstr "Number of visits"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "访问记录 - %s"
+msgstr "Access records - %s"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/wizard/knowledge_guide_book_create_wizard.py:0
+msgid "请至少选择一个指南页面。"
+msgstr "Please select at least one guide page."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/wizard/knowledge_guide_send_wizard.py:0
+msgid "请至少选择一个收件人。"
+msgstr "Please select at least one recipient."
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__tracked_url
+msgid "跟踪访问链接"
+msgstr "Track Access Link"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__link_tracker_id
+msgid "跟踪链接"
+msgstr "Track Link"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "跟踪链接已创建。"
+msgstr "Other Organiser"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "跟踪链接已更新。"
+msgstr "The tracking link has been updated."
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "邮件发送指南"
+msgstr "Mail Sender Guide"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_book.py:0
+msgid "错误"
+msgstr "Error"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__page_ids
+msgid "页面"
+msgstr "Page"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_book__page_count
+msgid "页面数量"
+msgstr "Number of pages"
