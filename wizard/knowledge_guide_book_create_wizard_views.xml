@@ -5,15 +5,15 @@
         <field name="name">knowledge.guide.book.create.wizard.form</field>
         <field name="model">knowledge.guide.book.create.wizard</field>
         <field name="arch" type="xml">
-            <form string="按页面创建指南合集">
+            <form string="Create Guide Collection from Pages">
                 <field name="has_blocked" invisible="1"/>
                 <sheet>
                     <group>
-                        <field name="name" placeholder="例如：客户管理指南"/>
+                        <field name="name" placeholder="For example: Customer Management Guide"/>
                         <field name="slug" placeholder="customer-guide"/>
                     </group>
                     <notebook>
-                        <page string="已选页面" name="selected_pages">
+                        <page string="Selected Pages" name="selected_pages">
                             <field name="page_ids" readonly="1">
                                 <list>
                                     <field name="name"/>
@@ -22,12 +22,12 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="冲突页面" name="conflicts"
+                        <page string="Conflicting Pages" name="conflicts"
                               invisible="not has_blocked">
                             <div class="alert alert-warning" role="alert">
-                                <strong>部分页面已经属于其他指南合集。</strong>
+                                <strong>Some pages already belong to another guide collection.</strong>
                                 <br/>
-                                这些页面不能重复加入新的合集。请先从原合集移除，或取消选择这些页面。
+                                A page cannot belong to more than one collection. Remove these pages from their current collection or clear them from the selection.
                             </div>
                             <field name="blocked_page_ids" readonly="1">
                                 <list>
@@ -40,10 +40,10 @@
                 </sheet>
                 <footer>
                     <button name="action_create_book"
-                            string="创建合集"
+                            string="Create Collection"
                             type="object"
                             class="btn-primary"/>
-                    <button string="取消"
+                    <button string="Cancel"
                             class="btn-secondary"
                             special="cancel"/>
                 </footer>
@@ -52,7 +52,7 @@
     </record>
 
     <record id="knowledge_guide_book_create_wizard_action" model="ir.actions.act_window">
-        <field name="name">按所选页面创建合集</field>
+        <field name="name">Create Collection from Selected Pages</field>
         <field name="res_model">knowledge.guide.book.create.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>

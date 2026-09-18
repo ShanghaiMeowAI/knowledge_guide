@@ -16,14 +16,14 @@ class KnowledgeGuideBook(models.Model):
     _order = 'sequence, name'
 
     name = fields.Char(
-        string='名称',
+        string='Name',
         required=True,
         translate=True,
         help='Title of the book / guide.',
     )
 
     slug = fields.Char(
-        string='URL 标识',
+        string='URL Slug',
         required=True,
         index=True,
         help='Unique identifier used in the public URL '
@@ -31,14 +31,14 @@ class KnowledgeGuideBook(models.Model):
     )
 
     description_html = fields.Html(
-        string='简介',
+        string='Introduction',
         sanitize=True,
         translate=True,
         help='Introduction shown at the top of the public guide.',
     )
 
     module_source = fields.Char(
-        string='来源模块',
+        string='Source Module',
         help='Technical name of the module that provided this book '
              '(used for traceability).',
         readonly=True,
@@ -47,18 +47,18 @@ class KnowledgeGuideBook(models.Model):
     page_ids = fields.One2many(
         'knowledge.guide.page',
         'book_id',
-        string='页面',
+        string='Pages',
         help='Pages composing this book.',
     )
 
     is_published = fields.Boolean(
-        string='已发布',
+        string='Published',
         default=False,
         help='If checked, the book is reachable through its public URL.',
     )
 
     access_token = fields.Char(
-        string='访问 Token',
+        string='Access Token',
         default=lambda self: str(uuid4()),
         required=True,
         copy=False,
@@ -66,46 +66,46 @@ class KnowledgeGuideBook(models.Model):
     )
 
     sequence = fields.Integer(
-        string='排序',
+        string='Sequence',
         default=10,
         help='Display order (lower comes first).',
     )
 
     active = fields.Boolean(
-        string='启用',
+        string='Active',
         default=True,
         help='Allows archiving a book without deleting it.',
     )
 
     page_count = fields.Integer(
-        string='页面数量',
+        string='Page Count',
         compute='_compute_page_count',
         store=True,
         help='Number of active pages in this book.',
     )
 
     public_url = fields.Char(
-        string='公开链接',
+        string='Public URL',
         compute='_compute_public_url',
         help='Full URL to access the public guide.',
     )
 
     link_tracker_id = fields.Many2one(
         'link.tracker',
-        string='跟踪链接',
+        string='Tracked Link',
         ondelete='set null',
         copy=False,
         help='Associated link tracker used to measure visits to the public guide.',
     )
 
     tracked_url = fields.Char(
-        string='跟踪访问链接',
+        string='Tracked URL',
         compute='_compute_tracked_url',
         help='Shortened tracked URL or public URL if no tracker is configured.',
     )
 
     click_count = fields.Integer(
-        string='访问次数',
+        string='Visit Count',
         compute='_compute_click_count',
         help='Number of clicks recorded by the link tracker.',
     )
@@ -182,8 +182,8 @@ class KnowledgeGuideBook(models.Model):
         """
         self.ensure_one()
         if not self.public_url:
-            return self._notify('warning', _('错误'),
-                                _('无法创建跟踪链接：当前指南还没有公开 URL。'))
+            return self._notify('warning', _('Error'),
+                                _('A tracked link cannot be created because this guide has no public URL yet.'))
 
         LinkTracker = self.env['link.tracker']
 
@@ -192,7 +192,7 @@ class KnowledgeGuideBook(models.Model):
                 'url': self.public_url,
                 'title': self.name,
             })
-            message = _('跟踪链接已更新。')
+            message = _('The tracked link was updated.')
         else:
             secure_code = secrets.token_urlsafe(16)
             tracker = LinkTracker.create({
@@ -201,9 +201,9 @@ class KnowledgeGuideBook(models.Model):
             })
             tracker.code = secure_code
             self.link_tracker_id = tracker.id
-            message = _('跟踪链接已创建。')
+            message = _('The tracked link was created.')
 
-        return self._notify('success', _('成功'), message)
+        return self._notify('success', _('Success'), message)
 
     def action_regenerate_token(self):
         """Generate a brand new UUID token for the public link.
@@ -236,11 +236,11 @@ class KnowledgeGuideBook(models.Model):
         """Open the list of clicks recorded by the associated link tracker."""
         self.ensure_one()
         if not self.link_tracker_id:
-            return self._notify('info', _('提示'),
-                                _('当前指南还没有创建跟踪链接。'))
+            return self._notify('info', _('Hint'),
+                                _('This guide does not have a tracked link yet.'))
 
         return {
-            'name': _('访问记录 - %s', self.name),
+            'name': _('Visit History - %s', self.name),
             'type': 'ir.actions.act_window',
             'res_model': 'link.tracker.click',
             'view_mode': 'list,form',
@@ -260,18 +260,18 @@ class KnowledgeGuideBook(models.Model):
         self.ensure_one()
 
         if not self.is_published:
-            return self._notify('warning', _('错误'),
-                                _('指南发布后才能通过邮件发送。'))
+            return self._notify('warning', _('Error'),
+                                _('Publish the guide before sending it by email.'))
 
         if not self.link_tracker_id:
             return self._notify(
-                'warning', _('提示'),
-                _('建议先在“发布与分享”页签生成跟踪链接，再通过邮件发送指南。'),
+                'warning', _('Hint'),
+                _('It is suggested that a tracking link be created on the “publication and sharing” page before sending a guide via mail.'),
                 sticky=True,
             )
 
         return {
-            'name': _('邮件发送指南'),
+            'name': _('Email Guide'),
             'type': 'ir.actions.act_window',
             'res_model': 'knowledge.guide.send.wizard',
             'view_mode': 'form',

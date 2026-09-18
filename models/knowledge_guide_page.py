@@ -18,14 +18,14 @@ class KnowledgeGuidePage(models.Model):
     _order = 'section_sequence, section, sequence, category, name'
 
     name = fields.Char(
-        string='标题',
+        string='Title',
         required=True,
         translate=True,
         help='Title of the section displayed in the guide.',
     )
 
     content_html = fields.Html(
-        string='原始内容',
+        string='Original Content',
         sanitize=True,
         sanitize_form=False,
         translate=True,
@@ -34,7 +34,7 @@ class KnowledgeGuidePage(models.Model):
     )
 
     custom_content_html = fields.Html(
-        string='自定义内容',
+        string='Custom Content',
         sanitize=True,
         sanitize_form=False,
         translate=True,
@@ -43,10 +43,10 @@ class KnowledgeGuidePage(models.Model):
     )
 
     display_content_html = fields.Html(
-        string='展示内容',
+        string='Display Content',
         compute='_compute_display_content_html',
         sanitize=False,
-        help="Stores the 展示内容 content shown or processed in the the knowledge guide guide workflow.")
+        help="Stops the presentation or presented in the knowledge framework framework work.")
 
     has_custom_content = fields.Boolean(
         compute='_compute_display_content_html',
@@ -59,31 +59,31 @@ class KnowledgeGuidePage(models.Model):
     )
 
     section = fields.Char(
-        string='一级目录',
+        string='Top-level Directory',
         required=True,
-        default='通用指南',
+        default='General Guide',
         translate=True,
         help='Top-level directory used to separate products or business domains.',
     )
 
     section_sequence = fields.Integer(
-        string='一级目录排序',
+        string='Top-level Directory Sequence',
         default=10,
         help='Controls the order of top-level directories.',
     )
 
     is_section_overview = fields.Boolean(
-        string='章节总览页',
+        string='Section Overview Page',
         help='Show this page directly below its top-level directory, before categories.',
     )
 
     is_default_landing = fields.Boolean(
-        string='默认入口页',
+        string='Default Landing Page',
         help='Open this page first when the user enters the guide.',
     )
 
     category = fields.Char(
-        string='分类',
+        string='Category',
         required=True,
         default='General',
         translate=True,
@@ -92,43 +92,43 @@ class KnowledgeGuidePage(models.Model):
 
     @api.model
     def _archive_legacy_manual_pages(self):
-        """旧版通用手册不再进入当前业务使用指南，但保留记录便于恢复。"""
+        """Archive the legacy general guide while keeping it recoverable."""
         pages = self.with_context(active_test=False).search([
             ('module_source', '=', 'knowledge_guide'),
-            ('section', '=', '通用指南'),
+            ('section', 'in', ['General Guide', '通用指南']),
             ('active', '=', True),
         ])
         pages.write({'active': False})
         return True
 
     module_source = fields.Char(
-        string='来源模块',
+        string='Source Module',
         help='Technical name of the module providing this page (for traceability).',
         readonly=True,
     )
 
     group_ids = fields.Many2many(
         'res.groups',
-        string='可见用户组',
+        string='Visible Groups',
         help='If empty, the page is visible to everyone. '
              'Otherwise only users belonging to one of these groups can see it.',
     )
 
     active = fields.Boolean(
-        string='启用',
+        string='Active',
         default=True,
         help='Allows archiving sections without deleting them.',
     )
 
     icon = fields.Char(
-        string='图标',
+        string='Icon',
         default='fa-book',
         help='FontAwesome class for the icon (e.g. fa-book, fa-cog, fa-user).',
     )
 
     book_id = fields.Many2one(
         'knowledge.guide.book',
-        string='指南合集',
+        string='Guide Collection',
         ondelete='set null',
         index=True,
         help='Book this page belongs to (optional).',
@@ -137,7 +137,7 @@ class KnowledgeGuidePage(models.Model):
     action_link_ids = fields.One2many(
         'knowledge.guide.action.link',
         'page_id',
-        string='Odoo 跳转按钮',
+        string='Odoo Navigation Button',
         help='Buttons displayed in the backend guide to jump to related Odoo pages.',
     )
 
@@ -224,27 +224,27 @@ class KnowledgeGuideActionLink(models.Model):
     _order = 'sequence, id'
 
     name = fields.Char(
-        string='按钮文字',
+        string='Button Label',
         required=True,
         translate=True,
-        help="Stores the 按钮文字 value used for the knowledge guide guide processing.")
+        help="Stores the value used for the knowledge framework guiding.")
 
     page_id = fields.Many2one(
         'knowledge.guide.page',
-        string='指南页面',
+        string='Guide Pages',
         required=True,
         ondelete='cascade',
         index=True,
-        help="Links the 指南页面 record(s) used to organize and deliver guide content.")
+        help="Links the guide(s) used to guide and guide contact.")
 
     action_xmlid = fields.Char(
-        string='动作 XMLID',
+        string='Action XMLID',
         required=True,
         help='External ID of the ir.actions record opened by this button.',
     )
 
     icon = fields.Char(
-        string='图标',
+        string='Icon',
         default='fa-external-link',
         help='FontAwesome class shown before the button text.',
     )

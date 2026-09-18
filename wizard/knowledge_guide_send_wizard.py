@@ -17,7 +17,7 @@ class KnowledgeGuideSendWizard(models.TransientModel):
 
     book_id = fields.Many2one(
         'knowledge.guide.book',
-        string='指南',
+        string='Guide',
         required=True,
         readonly=True,
         help='The book/guide to be sent.',
@@ -28,20 +28,20 @@ class KnowledgeGuideSendWizard(models.TransientModel):
         'knowledge_guide_send_wizard_partner_rel',
         'wizard_id',
         'partner_id',
-        string='收件人',
+        string='Recipients',
         required=True,
         domain=[('email', '!=', False)],
         help='Select the contacts that will receive the email.',
     )
 
     subject = fields.Char(
-        string='主题',
+        string='Subject',
         required=True,
         help='Email subject.',
     )
 
     body = fields.Html(
-        string='正文',
+        string='Body',
         required=True,
         sanitize=False,
         help='Email body (editable).',
@@ -78,7 +78,7 @@ class KnowledgeGuideSendWizard(models.TransientModel):
         self.ensure_one()
 
         if not self.partner_ids:
-            raise UserError(_('请至少选择一个收件人。'))
+            raise UserError(_('Select at least one recipient.'))
 
         MailMail = self.env['mail.mail']
 
@@ -103,9 +103,9 @@ class KnowledgeGuideSendWizard(models.TransientModel):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('成功'),
+                'title': _('Success'),
                 'message': _(
-                    '指南已发送给 %s 个收件人。',
+                    'The guide was sent to %s recipient(s).',
                     len(self.partner_ids),
                 ),
                 'type': 'success',
