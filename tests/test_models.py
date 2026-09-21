@@ -54,12 +54,18 @@ class TestKnowledgeGuidePage(TransactionCase):
         page = self.Page.create({'name': 'No icon', 'category': 'Test'})
         self.assertEqual(page.icon, 'fa-book')
 
-    def test_archive_legacy_manual_pages_only_hides_bundled_common_guide(self):
+    def test_archive_legacy_manual_pages_hides_superseded_bundled_guides(self):
         legacy_page = self.Page.create({
             'name': 'Legacy manual',
             'section': '通用指南',
             'category': '客户CRM',
             'module_source': 'knowledge_guide',
+        })
+        nordic_page = self.Page.create({
+            'name': 'Employee records and import checks',
+            'section': 'Human Resources',
+            'category': 'Employee records',
+            'module_source': 'nordic_knowledge_guide',
         })
         user_page = self.Page.create({
             'name': 'User manual',
@@ -70,7 +76,33 @@ class TestKnowledgeGuidePage(TransactionCase):
         self.Page._archive_legacy_manual_pages()
 
         self.assertFalse(legacy_page.active)
+        self.assertFalse(nordic_page.active)
         self.assertTrue(user_page.active)
+
+    def test_normalize_business_section_order_follows_customer_workflow(self):
+        expected_sequences = {
+            'deckmac_vessel_management': 10,
+            'meowmail': 20,
+            'meowmail_sale': 30,
+            'meow_product_technical_review': 40,
+            'ai_dynamic_models': 50,
+        }
+        pages = self.Page.create([
+            {
+                'name': module_source,
+                'category': 'Test',
+                'module_source': module_source,
+                'section_sequence': 99,
+            }
+            for module_source in expected_sequences
+        ])
+
+        self.Page._normalize_business_section_order()
+
+        self.assertEqual(
+            {page.module_source: page.section_sequence for page in pages},
+            expected_sequences,
+        )
 
     def test_action_view_source_returns_window_action(self):
         """action_view_source_html opens a wizard window action with the page id."""

@@ -92,13 +92,39 @@ class KnowledgeGuidePage(models.Model):
 
     @api.model
     def _archive_legacy_manual_pages(self):
-        """Archive the legacy general guide while keeping it recoverable."""
+        """Archive superseded bundled guides while keeping them recoverable.
+
+        ``nordic_knowledge_guide`` previously contributed generic Human
+        Resources and Accounting import-check pages.  They are not part of the
+        current customer guide and can otherwise survive after that provider
+        module is removed from the addons path.
+        """
         pages = self.with_context(active_test=False).search([
+            '|',
+            ('module_source', '=', 'nordic_knowledge_guide'),
+            '&',
             ('module_source', '=', 'knowledge_guide'),
             ('section', 'in', ['General Guide', '\u901a\u7528\u6307\u5357']),
             ('active', '=', True),
         ])
         pages.write({'active': False})
+        return True
+
+    @api.model
+    def _normalize_business_section_order(self):
+        """Keep contributed guide sections aligned with the business flow."""
+        sequence_by_module = {
+            'deckmac_vessel_management': 10,
+            'meowmail': 20,
+            'meowmail_sale': 30,
+            'meow_product_technical_review': 40,
+            'ai_dynamic_models': 50,
+        }
+        for module_source, section_sequence in sequence_by_module.items():
+            pages = self.with_context(active_test=False).search([
+                ('module_source', '=', module_source),
+            ])
+            pages.write({'section_sequence': section_sequence})
         return True
 
     module_source = fields.Char(
