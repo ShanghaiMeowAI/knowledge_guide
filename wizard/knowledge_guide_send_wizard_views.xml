@@ -6,26 +6,26 @@
         <field name="name">knowledge.guide.send.wizard.form</field>
         <field name="model">knowledge.guide.send.wizard</field>
         <field name="arch" type="xml">
-            <form string="邮件发送指南">
+            <form string="Email Guide">
                 <group>
                     <field name="book_id" invisible="1"/>
                     <field name="partner_ids" widget="many2many_tags_email"
-                           placeholder="选择收件人..."
+                           placeholder="Select recipients..."
                            options="{'no_create': True, 'no_create_edit': True}"
                            context="{'show_email': True, 'form_view_ref': 'base.view_partner_simple_form'}"/>
                 </group>
                 <group>
-                    <field name="subject" placeholder="邮件主题"/>
+                    <field name="subject" placeholder="Email subject"/>
                 </group>
                 <group>
                     <field name="body" widget="html"
-                           placeholder="编辑邮件正文..."
+                           placeholder="Edit the email body..."
                            options="{'codeview': true, 'sandboxedPreview': true}"/>
                 </group>
                 <footer>
-                    <button string="发送" name="action_send"
+                    <button string="Send" name="action_send"
                             type="object" class="btn-primary" data-hotkey="q"/>
-                    <button string="取消" class="btn-secondary"
+                    <button string="Cancel" class="btn-secondary"
                             special="cancel" data-hotkey="x"/>
                 </footer>
             </form>

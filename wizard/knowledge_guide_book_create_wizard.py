@@ -17,12 +17,12 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
     _description = 'Create Book from Selected Pages'
 
     name = fields.Char(
-        string='合集名称',
+        string='Collection Name',
         required=True,
-        help="Stores the 合集名称 value used for the knowledge guide wizard processing.")
+        help="Stores the combination used for the knowledge framework Wizad proceeding.")
 
     slug = fields.Char(
-        string='URL 标识',
+        string='URL Slug',
         required=True,
         help='Lowercase letters, digits and dashes only. '
              'Used in the public URL.',
@@ -30,17 +30,17 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
 
     page_ids = fields.Many2many(
         'knowledge.guide.page',
-        string='要加入的页面',
+        string='Pages to Add',
         default=lambda self: self._default_page_ids(),
-        help="Links the 要加入的页面 record(s) used by this operation wizard.")
+        help="Links the page(s) used by this operation wizard.")
 
     blocked_page_ids = fields.Many2many(
         'knowledge.guide.page',
         'knowledge_guide_book_create_wizard_blocked_rel',
         'wizard_id', 'page_id',
-        string='已属于其他合集的页面',
+        string='Pages in Another Collection',
         compute='_compute_blocked_page_ids',
-        help="Links the 已属于其他合集的页面 record(s) used by this operation wizard.")
+        help="Links the page(s) used by this operation Wizard.")
 
     has_blocked = fields.Boolean(compute='_compute_blocked_page_ids', help="Controls whether has blocked is enabled for the knowledge guide wizard processing.")
 
@@ -66,17 +66,17 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
         self.ensure_one()
 
         if not self.page_ids:
-            raise ValidationError(_('请至少选择一个指南页面。'))
+            raise ValidationError(_('Select at least one guide page.'))
 
         blocked = self.page_ids.filtered(lambda p: p.book_id)
         if blocked:
             details = '\n'.join(
-                f'- {p.name}（当前所属合集：{p.book_id.name}）'
+                _('- %(page)s (current collection: %(collection)s)', page=p.name, collection=p.book_id.name)
                 for p in blocked
             )
             raise ValidationError(_(
-                '以下页面已经属于其他指南合集，不能重复加入：\n%(details)s\n\n'
-                '请先从原合集移除这些页面，或取消选择这些页面。',
+                'The following pages already belong to another guide collection and cannot be added again:\n%(details)s\n\n'
+                'Remove these pages from their current collection or clear them from the selection.',
                 details=details,
             ))
 
@@ -88,7 +88,7 @@ class KnowledgeGuideBookCreateWizard(models.TransientModel):
 
         return {
             'type': 'ir.actions.act_window',
-            'name': _('指南合集'),
+            'name': _('Guide Collection'),
             'res_model': 'knowledge.guide.book',
             'res_id': book.id,
             'view_mode': 'form',

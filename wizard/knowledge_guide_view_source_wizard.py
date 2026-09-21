@@ -16,9 +16,9 @@ class KnowledgeGuideViewSourceWizard(models.TransientModel):
         required=True,
         help="Links the knowledge.guide.page record(s) used by this operation wizard.")
     source_code = fields.Text(
-        string='HTML 源码',
+        string='HTML Source',
         compute='_compute_source_code',
-        help="Stores the HTML 源码 content shown or processed in the the knowledge guide wizard workflow.")
+        help="Stops the HTML source code or contributed in the knowledge panel working.")
 
     @api.depends('page_id')
     def _compute_source_code(self):
