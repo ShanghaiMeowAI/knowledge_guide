@@ -75,6 +75,8 @@
                                 </div>
                                 <div class="user-guide-section-categories"
                                      t-att-class="{ 'collapsed': !isSectionExpanded(section) }">
+                                    <t t-set="directoryNodes" t-value="getDirectoryTree(section)"/>
+                                    <t t-call="knowledge_guide.DirectoryTree"/>
                                     <t t-foreach="getSectionOverviewPages(section)" t-as="page" t-key="page.id">
                                         <div
                                             class="user-guide-page-item user-guide-section-overview"
@@ -154,4 +156,22 @@
         </div>
     </t>
 
+    <t t-name="knowledge_guide.DirectoryTree">
+        <t t-foreach="directoryNodes" t-as="node" t-key="node.key">
+            <div class="user-guide-directory" t-att-data-directory-key="node.key">
+                <div class="user-guide-page-item user-guide-directory-title"
+                     t-att-class="{ 'active': node.page &amp;&amp; isPageSelected(node.page) }"
+                     t-on-click="() => this.openDirectory(node)">
+                    <i class="fa" style="margin-right:8px"
+                       t-att-class="node.children.length ? (isDirectoryExpanded(node) ? 'fa-chevron-down' : 'fa-chevron-right') : 'fa-file-text-o'"/>
+                    <span t-esc="node.name"/>
+                </div>
+                <div class="user-guide-directory-children" style="padding-left:14px"
+                     t-if="node.children.length &amp;&amp; isDirectoryExpanded(node)">
+                    <t t-set="directoryNodes" t-value="node.children"/>
+                    <t t-call="knowledge_guide.DirectoryTree"/>
+                </div>
+            </div>
+        </t>
+    </t>
 </templates>

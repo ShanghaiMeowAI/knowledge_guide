@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
+import json
 
 from odoo import http
 from odoo.http import request
@@ -70,6 +71,7 @@ class KnowledgeGuideController(http.Controller):
             'is_section_overview': page.is_section_overview,
             'is_default_landing': page.is_default_landing,
             'category': page.category,
+            'directory_path': json.loads(page.directory_path or '[]'),
             'icon': page.icon,
             'sequence': page.sequence,
             'module_source': page.module_source or '',
@@ -253,6 +255,33 @@ class KnowledgeGuideController(http.Controller):
         return self._render_guide(book, sections, all_pages, selected_page,
                                    prev_page, next_page, token, language_context)
 
+    def _get_directory_tree(self, pages, selected_page=None):
+        """Build the same translated hierarchy used by the backend reader."""
+        sections = OrderedDict()
+        for page in pages:
+            path = json.loads(page.directory_path or '[]')
+            if not path:
+                continue
+            nodes = sections.setdefault(page.section, [])
+            ancestors = []
+            for name in path:
+                node = next((item for item in nodes if item['name'] == name), None)
+                if node is None:
+                    node = {'name': name, 'children': [], 'page': None, 'active': False}
+                    nodes.append(node)
+                ancestors.append(node)
+                nodes = node['children']
+            if path[-1] == page.name:
+                node['page'] = page
+            else:
+                node = {'name': page.name, 'children': [], 'page': page, 'active': False}
+                nodes.append(node)
+                ancestors.append(node)
+            if selected_page and page.id == selected_page.id:
+                for ancestor in ancestors:
+                    ancestor['active'] = True
+        return sections
+
     def _render_guide(self, book, sections, all_pages, selected_page,
                       prev_page, next_page, token, language_context=None):
         """Render the public template prefixed with an HTML5 doctype.
@@ -261,9 +290,16 @@ class KnowledgeGuideController(http.Controller):
         XML), so we prepend it manually to the rendered HTML.
         """
         language_context = language_context or self._get_language_context()
+        directory_trees = self._get_directory_tree(all_pages, selected_page)
+        legacy_sections = OrderedDict((name, OrderedDict(
+            (category, [page for page in pages if not json.loads(page.directory_path or '[]')])
+            for category, pages in categories.items()
+            if any(not json.loads(page.directory_path or '[]') for page in pages)
+        )) for name, categories in sections.items())
         response = request.render('knowledge_guide.guide_book_public', {
             'book': book,
-            'sections': sections,
+            'sections': legacy_sections,
+            'directory_trees': directory_trees,
             'all_pages': all_pages,
             'selected_page': selected_page,
             'prev_page': prev_page,

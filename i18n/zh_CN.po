@@ -1188,3 +1188,18 @@ msgstr "用于区分产品或业务领域的一级目录。"
 #: code:addons/knowledge_guide/static/src/js/knowledge_guide.js:0
 msgid "General Guide"
 msgstr "通用指南"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,field_description:knowledge_guide.field_knowledge_guide_page__directory_path
+msgid "Directory Path"
+msgstr "目录路径"
+
+#. module: knowledge_guide
+#: model:ir.model.fields,help:knowledge_guide.field_knowledge_guide_page__directory_path
+msgid "JSON list of directory names below the top-level directory. Leave empty to use category navigation."
+msgstr "顶级目录下的目录名称 JSON 列表。留空时使用分类导航。"
+
+#. module: knowledge_guide
+#: code:addons/knowledge_guide/models/knowledge_guide_page.py:0
+msgid "Directory Path must be a JSON list of non-empty names."
+msgstr "目录路径必须为由非空名称组成的 JSON 列表。"

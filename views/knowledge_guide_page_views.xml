@@ -41,6 +41,7 @@
                             <field name="name"/>
                             <field name="section"/>
                             <field name="category"/>
+                            <field name="directory_path"/>
                             <field name="icon"/>
                         </group>
                         <group>
