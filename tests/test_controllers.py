@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from types import SimpleNamespace
+import json
 from unittest.mock import patch
 
 from werkzeug.exceptions import NotFound
@@ -48,6 +49,35 @@ class TestKnowledgeGuidePublicController(TransactionCase):
 
         self.assertIn('/guide/<string:slug>', routes)
         self.assertIn('/guide/<string:slug>/<int:page_id>', routes)
+
+    def test_translated_nested_directory_payload(self):
+        page = self.Page.create({
+            'name': 'Locations', 'section': 'Supply Chain', 'category': 'Inventory management',
+            'directory_path': json.dumps(['Inventory', 'Warehouses and storage', 'Inventory management']),
+        })
+        page.with_context(lang='zh_CN').write({'directory_path': json.dumps(['库存', '仓库和储存', '库存管理'], ensure_ascii=False)})
+        self.assertEqual(self.controller._page_to_json(page.with_context(lang='en_US'))['directory_path'], ['Inventory', 'Warehouses and storage', 'Inventory management'])
+        self.assertEqual(self.controller._page_to_json(page.with_context(lang='zh_CN'))['directory_path'], ['库存', '仓库和储存', '库存管理'])
+
+    def test_public_tree_keeps_overview_and_children(self):
+        path = ['Inventory', 'Warehouses and storage', 'Inventory management']
+        overview = self.Page.create({'name': 'Inventory management', 'section': 'Supply Chain', 'directory_path': json.dumps(path)})
+        locations = self.Page.create({'name': 'Locations', 'section': 'Supply Chain', 'directory_path': json.dumps(path)})
+        tree = self.controller._get_directory_tree(overview | locations, locations)
+        node = tree['Supply Chain'][0]['children'][0]['children'][0]
+        self.assertEqual(node['page'], overview)
+        self.assertEqual(node['children'][0]['page'], locations)
+        self.assertTrue(node['active'])
+        book, _page = self._make_published_book(slug='nested-tree-render')
+        html = self.env['ir.qweb']._render('knowledge_guide.guide_book_public', {
+            'book': book, 'sections': {'Supply Chain': {}}, 'directory_trees': tree,
+            'all_pages': overview | locations, 'selected_page': locations,
+            'prev_page': None, 'next_page': None, 'page_xmlids': {},
+            'token': book.access_token, 'current_lang': 'en_US', 'languages': [],
+        })
+        self.assertIn('Warehouses and storage', str(html))
+        self.assertIn('Inventory management', str(html))
+        self.assertIn('/' + str(locations.id) + '?token=', str(html))
 
     def test_page_to_json_includes_action_links(self):
         """Backend page payload includes configured Odoo action buttons."""

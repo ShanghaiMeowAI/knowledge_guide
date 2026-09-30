@@ -63,6 +63,9 @@
                                 </div>
                                 <div class="gp-nav-section-categories"
                                      t-att-class="'' if section_active else 'collapsed'">
+                                    <t t-call="knowledge_guide.guide_public_directory_tree">
+                                        <t t-set="directory_nodes" t-value="directory_trees.get(section_name, [])"/>
+                                    </t>
                                     <t t-foreach="sections[section_name]" t-as="cat_name">
                                         <t t-set="has_active_page" t-value="section_active and selected_page.category == cat_name"/>
                                         <div class="gp-nav-category">
@@ -209,6 +212,28 @@
         </body>
         </html>
 
+    </template>
+
+    <template id="guide_public_directory_tree" name="Public Guide Directory Tree">
+        <t t-foreach="directory_nodes" t-as="node">
+            <div class="gp-nav-category">
+                <div class="gp-nav-category-title">
+                    <i t-if="node['children']" t-att-class="'fa gp-chevron ' + ('fa-chevron-down' if node['active'] else 'fa-chevron-right')"
+                       onclick="togglePublicCategory(this.parentElement)"/>
+                    <a t-if="node['page']" t-att-href="base_url + '/' + str(node['page'].id) + query_string"
+                       t-att-data-guide-page-xmlid="page_xmlids.get(node['page'].id, '')"
+                       t-att-class="'active' if selected_page and node['page'].id == selected_page.id else ''">
+                        <t t-out="node['name']"/>
+                    </a>
+                    <span t-else="" onclick="togglePublicCategory(this.parentElement)"><t t-out="node['name']"/></span>
+                </div>
+                <div t-if="node['children']" t-att-class="'gp-nav-section-categories' + ('' if node['active'] else ' collapsed')" style="padding-left:14px">
+                    <t t-call="knowledge_guide.guide_public_directory_tree">
+                        <t t-set="directory_nodes" t-value="node['children']"/>
+                    </t>
+                </div>
+            </div>
+        </t>
     </template>
 
 </odoo>

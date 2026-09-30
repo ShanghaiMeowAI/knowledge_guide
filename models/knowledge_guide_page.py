@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import json
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class KnowledgeGuidePage(models.Model):
@@ -89,6 +91,24 @@ class KnowledgeGuidePage(models.Model):
         translate=True,
         help='Section / category of the page (e.g. General, Sales, Inventory).',
     )
+
+    directory_path = fields.Char(
+        string='Directory Path', translate=True,
+        help='JSON list of directory names below the top-level directory. '
+             'Leave empty to use category navigation.',
+    )
+
+    @api.constrains('directory_path')
+    def _check_directory_path(self):
+        for page in self:
+            if page.directory_path:
+                try:
+                    path = json.loads(page.directory_path)
+                    valid = isinstance(path, list) and all(isinstance(name, str) and name.strip() for name in path)
+                except (ValueError, TypeError):
+                    valid = False
+                if not valid:
+                    raise ValidationError(_('Directory Path must be a JSON list of non-empty names.'))
 
     @api.model
     def _archive_legacy_manual_pages(self):

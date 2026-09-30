@@ -30,6 +30,7 @@ class KnowledgeGuide extends Component {
             error: false,
             expandedCategories: [],
             expandedSections: [],
+            expandedDirectories: [],
         });
 
         onWillStart(async () => {
@@ -96,6 +97,12 @@ class KnowledgeGuide extends Component {
         this.clearHighlights();
 
         this.state.selectedPage = page;
+
+        const path = page.directory_path || [];
+        for (let depth = 1; depth <= path.length; depth++) {
+            const key = JSON.stringify([page.section, ...path.slice(0, depth)]);
+            if (!this.state.expandedDirectories.includes(key)) this.state.expandedDirectories.push(key);
+        }
 
         if (page?.section && !this.isSectionExpanded(page.section)) {
             this.state.expandedSections = [...this.state.expandedSections, page.section];
@@ -191,7 +198,7 @@ class KnowledgeGuide extends Component {
 
     getCategoriesBySection(section) {
         return this.state.pages
-            .filter((page) => page.section === section && !page.is_section_overview)
+            .filter((page) => page.section === section && !page.is_section_overview && !page.directory_path?.length)
             .reduce((categories, page) => {
                 if (!categories.includes(page.category)) {
                     categories.push(page.category);
@@ -204,6 +211,44 @@ class KnowledgeGuide extends Component {
         return this.state.pages.filter(
             (page) => page.section === section && page.is_section_overview
         );
+    }
+
+    getDirectoryTree(section) {
+        const roots = [];
+        for (const page of this.state.pages.filter((p) => p.section === section && p.directory_path?.length)) {
+            let children = roots;
+            let parent;
+            page.directory_path.forEach((name, index) => {
+                const key = JSON.stringify([section, ...page.directory_path.slice(0, index + 1)]);
+                let node = children.find((item) => item.key === key);
+                if (!node) {
+                    node = { key, name, children: [], page: null };
+                    children.push(node);
+                }
+                parent = node;
+                children = node.children;
+            });
+            if (parent.name === page.name) parent.page = page;
+            else children.push({ key: `page:${page.id}`, name: page.name, children: [], page });
+        }
+        return roots;
+    }
+
+    isDirectoryExpanded(node) {
+        return this.state.searchTerm || this.state.expandedDirectories.includes(node.key);
+    }
+
+    openDirectory(node) {
+        const wasExpanded = this.isDirectoryExpanded(node);
+        if (node.page) {
+            this.selectPage(node.page);
+            this.scrollContentToTop();
+        }
+        if (node.children.length) {
+            this.state.expandedDirectories = wasExpanded
+                ? this.state.expandedDirectories.filter((key) => key !== node.key)
+                : [...this.state.expandedDirectories.filter((key) => key !== node.key), node.key];
+        }
     }
 
     getPagesBySectionCategory(section, category) {

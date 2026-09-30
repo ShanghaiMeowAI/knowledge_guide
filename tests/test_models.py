@@ -22,6 +22,11 @@ class TestKnowledgeGuidePage(TransactionCase):
         self.assertEqual(page.display_content_html, '<p>Original</p>')
         self.assertFalse(page.has_custom_content)
 
+    def test_directory_path_rejects_invalid_navigation(self):
+        for path in ('not-json', '{"name":"Inventory"}', '[""]', '[1]'):
+            with self.assertRaises(ValidationError), self.env.cr.savepoint():
+                self.Page.create({'name': 'Invalid path', 'category': 'Test', 'directory_path': path})
+
     def test_display_content_uses_custom_override(self):
         """When custom_content_html is set, it replaces the original in display_content_html."""
         page = self.Page.create({
